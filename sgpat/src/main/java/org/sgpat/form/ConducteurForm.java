@@ -218,4 +218,20 @@ public class ConducteurForm {
 	public void setNationnalite(String nationnalite) {
 		this.nationnalite = nationnalite;
 	}
+
+	public String getDateDebutActivite() {
+		return dateDebutActivite;
+	}
+
+	public void setDateDebutActivite(String dateDebutActivite) {
+		this.dateDebutActivite = dateDebutActivite;
+	}
+
+	public Double getCaution() {
+		return caution;
+	}
+
+	public void setCaution(Double caution) {
+		this.caution = caution;
+	}
 }
