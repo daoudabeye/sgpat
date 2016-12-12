@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!-- Page title -->
+<title>SGPAT | Tableau de board</title>
+
+<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+<!--<link rel="shortcut icon" type="image/ico" href="favicon.ico" />-->
+
+<!-- Vendor styles -->
+<link href="../../../resources/fontawesome/css/font-awesome.css"
+	rel="stylesheet" media="screen"
+	th:href="@{/resources/fontawesome/css/font-awesome.css}" />
+<link href="../../../resources/metisMenu/metisMenu.css" rel="stylesheet"
+	media="screen" th:href="@{/resources/metisMenu/metisMenu.css}" />
+<link href="../../../resources/animate.css/animate.css" rel="stylesheet"
+	media="screen" th:href="@{/resources/animate.css/animate.css}" />
+<link href="../../../resources/bootstrap/css/bootstrap.css"
+	rel="stylesheet" media="screen"
+	th:href="@{/resources/bootstrap/css/bootstrap.css}" />
+<link rel="stylesheet" media="screen"
+	th:href="@{/resources/bootstrap/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css}" />
+
+<!-- App styles -->
+<link
+	href="../../../resources/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css"
+	rel="stylesheet" media="screen"
+	th:href="@{/resources/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css}" />
+<link href="../../../resources/fonts/pe-icon-7-stroke/css/helper.css"
+	rel="stylesheet" media="screen"
+	th:href="@{/resources/fonts/pe-icon-7-stroke/css/helper.css}" />
+<link href="../../../resources/style/style.css" rel="stylesheet"
+	media="screen" th:href="@{/resources/style/style.css}" />
+
+</head>
+<body class="fixed-navbar fixed-sidebar">
+
+	<!-- Simple splash screen-->
+	<div class="splash">
+		<div class="color-line"></div>
+		<div class="splash-title">
+			<h1>SGPAT - Systeme de Gestion de Prac Auto et Taxi</h1>
+			<p>Merci de patienter, traitement en cours....</p>
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</div>
+	</div>
+	<!--[if lt IE 7]>
+<p class="alert alert-danger">You are using an <strong>outdated</strong>
+ browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+	<!-- Header -->
+	<div th:replace="fragments/header :: header">&nbsp;</div>
+
+	<!-- Navigation -->
+	<aside id="menu">
+		<div th:replace="fragments/navigation :: navigation">&nbsp;</div>
+	</aside>
+
+	<!-- Main Wrapper -->
+	<div id="wrapper">
+
+		<div class="content animate-panel">
+			<div class="row">
+				<div class="col-lg-12 text-center m-t-md">
+					<h2>Bienvenue sur votre tableau de bord</h2>
+
+					<p>
+						Vous trouverez ici un <strong>récaputilatif</strong> de toutes les
+						informations essentielles.
+					</p>
+				</div>
+			</div>
+			<div class="row" sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_AGENT')">
+				<div class="col-lg-3">
+					<div class="hpanel">
+						<div class="panel-body text-center h-200">
+							<i class="pe-7s-graph1 fa-4x"></i>
+
+							<h1 class="m-xs"><span th:text="${chiffreAffaire}"></span></h1>
+
+							<h3 class="font-extra-bold no-margins text-success">
+								Chiffres d'affaire</h3>
+							<small>Il s'agit du chiffre d'affaire du mois en cours, pour
+								tous les services</small>
+						</div>
+						<div class="panel-footer">Information sur le chiffre
+							d'affaire</div>
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="hpanel stats">
+						<div class="panel-body h-200">
+							<div class="stats-title pull-left">
+								<h4>Recettes taxi</h4>
+							</div>
+							<div class="stats-icon pull-right">
+								<i class="pe-7s-share fa-4x"></i>
+							</div>
+							<div class="m-t-xl">
+								<h3 class="m-b-xs">
+									<span th:text="${nombreTaxi}"></span> <small>taxis</small>
+								</h3>
+								<span class="font-bold no-margins"> Taux de paiement </span>
+
+								<div class="progress m-t-xs full progress-small">
+									<div style="width: 55%" aria-valuemax="100" aria-valuemin="0"
+										aria-valuenow="55" role="progressbar"
+										class=" progress-bar progress-bar-success">
+										<span class="sr-only">35% Complete (success)</span>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-xs-7">
+										<small class="stat-label">Montant impayé</small>
+										<h4>
+											0 <i class="fa fa-level-up text-success"></i>
+										</h4>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="panel-footer">Information sur les recettes</div>
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="hpanel stats">
+						<div class="panel-body h-200">
+							<div class="stats-title pull-left">
+								<h4>Parc de véhicules</h4>
+							</div>
+							<div class="stats-icon pull-right">
+								<i class="pe-7s-share fa-4x"></i>
+							</div>
+							<div class="m-t-xl">
+								<h3 class="m-b-xs">
+									<span th:text="${nombreVehicule}"></span> <small>véhicules</small>
+								</h3>
+								<span class="font-bold no-margins"> En activités </span>
+
+								<div class="progress m-t-xs full progress-small">
+									<div style="width: 90%" aria-valuemax="100" aria-valuemin="0"
+										aria-valuenow="90" role="progressbar"
+										class=" progress-bar progress-bar-success">
+										<span class="sr-only">90% Complete (success)</span>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-xs-7">
+										<small class="stat-label">Partenaires</small>
+										<h4>
+											<span th:text="${vehiculesPartenaires}"></span>
+										</h4>
+									</div>
+									<div class="col-xs-4">
+										<small class="stat-label">En panne</small>
+										<h4>
+											<span th:text="${VehiculeEnPanne}"></span>
+										</h4>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="panel-footer">Information sur les véhicules</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="hpanel hbgred">
+						<div class="panel-body">
+							<div class="text-center">
+								<h3>Alertes</h3>
+								<p class="text-big font-light">0</p>
+								<small> Nombre d'alerte
+								</small>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_AGENT')">
+				<div class="col-lg-3">
+					<div class="hpanel">
+						<div class="panel-heading">
+							<div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+									class="closebox"><i class="fa fa-times"></i></a>
+							</div>
+							Véhicules
+						</div>
+						<div class="panel-body list">
+
+							<div class="pull-right">
+								<a href="#" class="btn btn-xs btn-default">Aujourd'hui</a> <a
+									href="#" class="btn btn-xs btn-default">Mois</a>
+							</div>
+							<div class="panel-title">Bilan</div>
+							<div class="list-item-container">
+								<div class="list-item">
+									<h3 class="no-margins font-extra-bold text-success"><span th:text="${VehiculeEnActiviter}"></span></h3>
+									<small>Véhicule en sortie</small>
+									<div class="pull-right font-bold">
+										<span th:text="${VehiculeEnActiviter}"></span> <i class="fa fa-level-up text-success"></i>
+									</div>
+								</div>
+								<div class="list-item">
+									<h3 class="no-margins font-extra-bold text-color3"><span th:text="${VehiculeReserver}"></span></h3>
+									<small>Véhicule réservés</small>
+									<div class="pull-right font-bold">
+										<span th:text="${VehiculeReserver}"></span> <i class="fa fa-level-down text-color3"></i>
+									</div>
+								</div>
+								<div class="list-item">
+									<h3 class="no-margins font-extra-bold text-success"><span th:text="${VehiculeDisponible}"></span></h3>
+									<small>Véhicule dispo.</small>
+									<div class="pull-right font-bold">
+										<span th:text="${VehiculeDisponible}"></span> <i class="fa fa-level-up text-success"></i>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="hpanel">
+						<div class="panel-heading">
+							<div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+									class="closebox"><i class="fa fa-times"></i></a>
+							</div>
+							Demandes de courses
+						</div>
+						<div class="panel-body list">
+							<div class="table-responsive project-list">
+								<table class="table table-striped">
+									<thead>
+										<tr>
+
+											<th colspan="2">Désignation</th>
+											<th>Montant</th>
+											<th>Date</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td><input type="checkbox" class="i-checks" checked></td>
+											<td>Moussa Diarra <br /> <small><i
+													class="fa fa-clock-o"></i> Created 14.08.2015</small>
+											</td>
+											<td><strong>20%</strong></td>
+											<td>Jul 14, 2016</td>
+											<td><a href=""><i class="fa fa-check text-success"></i></a></td>
+										</tr>
+										
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="hpanel">
+						<div class="panel-heading">
+							<div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+									class="closebox"><i class="fa fa-times"></i></a>
+							</div>
+							Contrats
+						</div>
+						<div class="panel-body list">
+
+							<div class="pull-right">
+								<a href="#" class="btn btn-xs btn-default">Aujourd'hui</a> <a
+									href="#" class="btn btn-xs btn-default">Mois</a>
+							</div>
+							<div class="panel-title">Resumé</div>
+							<div class="list-item-container">
+								<div class="list-item">
+									<h3 class="no-margins font-extra-bold text-success"><span th:text="${nombreContrats}"></span></h3>
+									<small>Nombre de contrats</small>
+								</div>
+								<div class="list-item">
+									<h3 class="no-margins font-extra-bold text-color3"><span th:text="${contratEnCours}"></span></h3>
+									<small>Nombre de prolongations</small>
+									<div class="pull-right font-bold">
+										<span th:text="${contratProlonger}"></span> <i class="fa fa-level-down text-color3"></i>
+									</div>
+								</div>
+								<div class="list-item">
+									<h3 class="no-margins font-extra-bold text-color3">0</h3>
+									<small>Contrats Honoré</small>
+									<div class="pull-right font-bold">
+										<span th:text="${contratOnorer}"></span> <i class="fa fa-bolt text-color3"></i>
+									</div>
+								</div>
+								<div class="list-item">
+									<h3 class="no-margins font-extra-bold text-success"><span th:text="${contratAnnuler}"></span></h3>
+									<small>Contrats annulé</small>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row" sec:authorize="hasRole('ROLE_CLIENT')">
+				<div class="col-lg-3">
+					<div class="hpanel">
+						<div class="panel-heading">
+							<div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+									class="closebox"><i class="fa fa-times"></i></a>
+							</div>
+							Véhicules
+						</div>
+						<div class="panel-body list">
+
+							<div class="pull-right">
+								<a href="#" class="btn btn-xs btn-default">Aujourd'hui</a> <a
+									href="#" class="btn btn-xs btn-default">Mois</a>
+							</div>
+							<div class="panel-title">Bilan</div>
+							<div class="list-item-container">
+								<div class="list-item">
+									<h3 class="no-margins font-extra-bold text-success"><span th:text="${VehiculeEnActiviter}"></span></h3>
+									<small>Véhicule en sortie</small>
+									<div class="pull-right font-bold">
+										<span th:text="${VehiculeEnActiviter}"></span> <i class="fa fa-level-up text-success"></i>
+									</div>
+								</div>
+								<div class="list-item">
+									<h3 class="no-margins font-extra-bold text-color3"><span th:text="${VehiculeReserver}"></span></h3>
+									<small>Véhicule réservés</small>
+									<div class="pull-right font-bold">
+										<span th:text="${VehiculeReserver}"></span> <i class="fa fa-level-down text-color3"></i>
+									</div>
+								</div>
+								<div class="list-item">
+									<h3 class="no-margins font-extra-bold text-success"><span th:text="${VehiculeDisponible}"></span></h3>
+									<small>Véhicule dispo.</small>
+									<div class="pull-right font-bold">
+										<span th:text="${VehiculeDisponible}"></span> <i class="fa fa-level-up text-success"></i>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-lg-3">
+					<div class="hpanel">
+						<div class="panel-heading">
+							<div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+									class="closebox"><i class="fa fa-times"></i></a>
+							</div>
+							Contrats
+						</div>
+						<div class="panel-body list">
+
+							<div class="pull-right">
+								<a href="#" class="btn btn-xs btn-default">Aujourd'hui</a> <a
+									href="#" class="btn btn-xs btn-default">Mois</a>
+							</div>
+							<div class="panel-title">Resumé</div>
+							<div class="list-item-container">
+								<div class="list-item">
+									<h3 class="no-margins font-extra-bold text-success"><span th:text="${nombreContrats}"></span></h3>
+									<small>Nombre de contrats</small>
+								</div>
+								<div class="list-item">
+									<h3 class="no-margins font-extra-bold text-color3"><span th:text="${contratEnCours}"></span></h3>
+									<small>Nombre de prolongations</small>
+									<div class="pull-right font-bold">
+										<span th:text="${contratProlonger}"></span> <i class="fa fa-level-down text-color3"></i>
+									</div>
+								</div>
+								<div class="list-item">
+									<h3 class="no-margins font-extra-bold text-color3">0</h3>
+									<small>Contrats Honoré</small>
+									<div class="pull-right font-bold">
+										<span th:text="${contratOnorer}"></span> <i class="fa fa-bolt text-color3"></i>
+									</div>
+								</div>
+								<div class="list-item">
+									<h3 class="no-margins font-extra-bold text-success"><span th:text="${contratAnnuler}"></span></h3>
+									<small>Contrats annulé</small>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Footer-->
+		<footer class="footer">
+			<div th:replace="fragments/footer :: footer">&copy; 2013 The
+				Static Templates</div>
+		</footer>
+
+	</div>
+
+	<!-- Vendor scripts -->
+	<script th:src="@{/resources/jquery/jquery.min.js}"></script>
+	<script th:src="@{/resources/slimScroll/jquery.slimscroll.min.js}"></script>
+	<script th:src="@{/resources/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/resources/metisMenu/metisMenu.min.js}"></script>
+
+	<!-- App scripts -->
+	<script th:src="@{/resources/js/homer.js}"></script>
+
+	<script>
+		$(function() {
+
+			/**
+			 * Flot charts data and options
+			 */
+			var data1 = [ [ 0, 55 ], [ 1, 48 ], [ 2, 40 ], [ 3, 36 ],
+					[ 4, 40 ], [ 5, 60 ], [ 6, 50 ], [ 7, 51 ] ];
+			var data2 = [ [ 0, 56 ], [ 1, 49 ], [ 2, 41 ], [ 3, 38 ],
+					[ 4, 46 ], [ 5, 67 ], [ 6, 57 ], [ 7, 59 ] ];
+
+			var chartUsersOptions = {
+				series : {
+					splines : {
+						show : true,
+						tension : 0.4,
+						lineWidth : 1,
+						fill : 0.4
+					},
+				},
+				grid : {
+					tickColor : "#f0f0f0",
+					borderWidth : 1,
+					borderColor : 'f0f0f0',
+					color : '#6a6c6f'
+				},
+				colors : [ "#62cb31", "#efefef" ],
+			};
+
+			$.plot($("#flot-line-chart"), [ data1, data2 ], chartUsersOptions);
+
+			/**
+			 * Flot charts 2 data and options
+			 */
+			var chartIncomeData = [ {
+				label : "line",
+				data : [ [ 1, 10 ], [ 2, 26 ], [ 3, 16 ], [ 4, 36 ], [ 5, 32 ],
+						[ 6, 51 ] ]
+			} ];
+
+			var chartIncomeOptions = {
+				series : {
+					lines : {
+						show : true,
+						lineWidth : 0,
+						fill : true,
+						fillColor : "#64cc34"
+
+					}
+				},
+				colors : [ "#62cb31" ],
+				grid : {
+					show : false
+				},
+				legend : {
+					show : false
+				}
+			};
+
+			$
+					.plot($("#flot-income-chart"), chartIncomeData,
+							chartIncomeOptions);
+		});
+	</script>
+</body>
+</html>
