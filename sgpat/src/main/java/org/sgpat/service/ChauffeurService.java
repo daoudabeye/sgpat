@@ -81,10 +81,12 @@ public Chauffeur createSalaire(Double montant, String codeChauffeur, String date
 	public Chauffeur create(ConducteurForm conducteurForm) {
 		Chauffeur chauffeur = conducteurForm.create();
 		chauffeur  = chauffeurRepository.save(chauffeur);
+		chauffeur.setProfile("TAXI");
 		
 		String code = chauffeur.getId()+"";
+		
 		int lenth = code.length();
-		for(int i=5; i>0; i--, lenth--){
+		for(int i=3; i>0; i--, lenth--){
 			if(lenth <= 0)
 				code = "0"+code;
 		}

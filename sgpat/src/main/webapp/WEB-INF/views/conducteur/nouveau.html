@@ -99,6 +99,11 @@
 											<div
 												th:replace="fragments/alert :: alert (type='danger', message=${errorMessage})">Alert</div>
 										</th:block>
+										
+										<th:block th:if="${success != null}">
+											<div
+												th:replace="fragments/alert :: alert (type='success', message=${success})">Alert</div>
+										</th:block>
 										<div th:fragment="in-form">
 											<div class="col-md-4">
 												<fieldset>
@@ -256,8 +261,8 @@
 													<div class="input-group m-b">
 														<span class="input-group-addon"><i
 															class="pe-7s-info"></i></span> <input type="text"
-															placeholder="Caution" class="form-control"
-															th:classappend="${#fields.hasErrors('numeroPiece')}? 'error'">
+															placeholder="Caution" class="form-control" th:field="*{caution}"
+															th:classappend="${#fields.hasErrors('caution')}? 'error'">
 													</div>
 													
 													<p>Selectionner la date d'emition et d'expiration</p>
