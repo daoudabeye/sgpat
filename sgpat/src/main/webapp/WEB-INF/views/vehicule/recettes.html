@@ -25,8 +25,8 @@
 	th:href="@{/resources/bootstrap/css/bootstrap.css}" />
 <link rel="stylesheet" media="screen"
 	th:href="@{/resources/bootstrap/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css}" />
-	
-	<link rel="stylesheet" media="screen"
+
+<link rel="stylesheet" media="screen"
 	th:href="@{/resources/select2-3.5.2/select2.css}" />
 
 <link rel="stylesheet" media="screen"
@@ -80,6 +80,7 @@
 		<div class="content animate-panel">
 
 			<div class="row">
+
 				<div class="col-lg-6">
 					<div class="hpanel">
 						<div class="panel-body">
@@ -152,9 +153,12 @@
 														CHAUFFEUR</span>
 												</legend>
 												<p>Code Chauffeur</p>
-												<select class="js-source-states" style="width: 100%" onselect="retrieveChauffeur()"  id="codeChauffeur">
-													<option th:each="chauffeur : ${chauffeurs}" onclick="retrieveChauffeur()"
-														th:value="${chauffeur.codeChauffeur}" th:text="${chauffeur.nom+' '+chauffeur.prenom+' ('+chauffeur.codeChauffeur+')'}">Alaska</option>
+												<select class="js-source-states" style="width: 100%"
+													onselect="retrieveChauffeur()" id="codeChauffeur">
+													<option th:each="chauffeur : ${chauffeurs}"
+														onclick="retrieveChauffeur()"
+														th:value="${chauffeur.codeChauffeur}"
+														th:text="${chauffeur.nom+' '+chauffeur.prenom+' ('+chauffeur.codeChauffeur+')'}">Alaska</option>
 												</select>
 											</fieldset>
 										</div>
@@ -197,6 +201,13 @@
 
 			<div class="row">
 				<div class="col-lg-12">
+					<th:block th:if="${errorMessage != null}">
+						<div
+							th:replace="fragments/alert :: alert (type='danger', message=${errorMessage})">Alert</div>
+					</th:block>
+					<div class="alert alert-success" th:if="${success != null}">
+						<i class="fa fa-bolt"></i> Action effectuée
+					</div>
 
 					<div class="hpanel">
 						<div class="panel-heading">
@@ -261,7 +272,7 @@
 		th:src="@{/resources/datatables/media/js/jquery.dataTables.min.js}"></script>
 	<script
 		th:src="@{/resources/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
-		
+
 	<script th:src="@{/resources/select2-3.5.2/select2.min.js}"></script>
 
 	<!-- DataTables buttons scripts -->
@@ -334,7 +345,7 @@
 			$('#datapicker3').datepicker();
 			$('#datepicker .input-group.date').datepicker({});
 			$('#datepicker .input-daterange').datepicker({});
-			
+
 			$(".js-source-states").select2();
 			$(".js-source-states-2").select2();
 
@@ -363,24 +374,24 @@
 				cache : false
 			});
 		}
-		
+
 		function retrieveChauffeur() {
 			var url = '/sgpat/conducteur/retrieve?vue=vehicule/recettes&fragment=false';
 
-				url = url + '&codeChauffeur=' + $('#codeChauffeur').val();
-				
+			url = url + '&codeChauffeur=' + $('#codeChauffeur').val();
+
 			//$("#fragment").load(url);
 			//loadUrl(url);
 			window.location = url;
 		}
-		
+
 		function makePaiement() {
 			var url = '/sgpat/vehicule/payer?';
 
-				url = url + '&codeChauffeur=' + $('#codeChauffeur').val();
-				url = url + '&date=' + $('#datapicker2').val();
-				url = url + '&montant=' + $('#montantPayer').val();
-				
+			url = url + '&codeChauffeur=' + $('#codeChauffeur').val();
+			url = url + '&date=' + $('#datapicker2').val();
+			url = url + '&montant=' + $('#montantPayer').val();
+
 			//$("#fragment").load(url);
 			//loadUrl(url);
 			window.location = url;

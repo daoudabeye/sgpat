@@ -88,7 +88,7 @@
 							<div th:fragment="form">
 								<div class="row">
 									<form th:method="post" class="form-horizontal"
-										th:action="@{/conducteur/nouveau?controller=self&update=false}"
+										th:action="@{'/conducteur/nouveau?controller=self&update=' + ${update}}"
 										th:object="${conducteurForm}">
 										<th:block th:if="${#fields.hasErrors('${conducteurForm.*}')}">
 											<div
@@ -99,7 +99,7 @@
 											<div
 												th:replace="fragments/alert :: alert (type='danger', message=${errorMessage})">Alert</div>
 										</th:block>
-										
+
 										<th:block th:if="${success != null}">
 											<div
 												th:replace="fragments/alert :: alert (type='success', message=${success})">Alert</div>
@@ -224,7 +224,8 @@
 															<span class="input-group-addon"> <span
 																class="fa fa-calendar"></span>
 															</span> <input id="datapicker4" type="text" value="02/12/2012"
-																class="form-control" th:field="*{dateDebutActivite}" placeholder="début activitées"
+																class="form-control" th:field="*{dateDebutActivite}"
+																placeholder="début activitées"
 																th:classappend="${#fields.hasErrors('dateDebutActivite')}? 'error'">
 														</div>
 													</div>
@@ -261,10 +262,11 @@
 													<div class="input-group m-b">
 														<span class="input-group-addon"><i
 															class="pe-7s-info"></i></span> <input type="text"
-															placeholder="Caution" class="form-control" th:field="*{caution}"
+															placeholder="Caution" class="form-control"
+															th:field="*{caution}"
 															th:classappend="${#fields.hasErrors('caution')}? 'error'">
 													</div>
-													
+
 													<p>Selectionner la date d'emition et d'expiration</p>
 													<h5>Date d'expiration</h5>
 													<div class="form-group">
@@ -292,7 +294,7 @@
 													<div class="col-sm-8 col-sm-offset-0">
 														<input type="file" class="btn btn-warning" />Pièce Jointe
 													</div>
-													
+
 												</fieldset>
 											</div>
 										</div>

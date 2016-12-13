@@ -12,6 +12,7 @@ import org.sgpat.repository.RecetteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 @Service
 public class RecetteService {
@@ -59,17 +60,25 @@ public class RecetteService {
 	public Recette paiement(String codeChauffeur, String date, Double montant){
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		try {
-			Date datePaiement = sdf.parse(date);
+			Date datePaiement = new Date();
+			try {
+				datePaiement = sdf.parse(date);
+			} catch (Exception e) {
+				// TODO: handle exception
+				Assert.isTrue(false , "Format date incorrect");
+			}
+			
 			Recette recette = recetteRepository.findFirst1ByDateAndChauffeurCodeChauffeur(datePaiement, codeChauffeur);
 			if(recette == null){
 				Chauffeur chauffeur = chauffeurService.findByCode(codeChauffeur);
 				Vehicule vehicule = vehiculeService.findVehicule(chauffeur);
-				if(vehicule == null) return null;
+				if(vehicule == null)
+					Assert.isTrue(false , "Aucun vehicule attribué à ce chauffeur");
 				Categorie categorie = vehicule.getCategorie();
 				Double prix = categorie.getPrixParJours();
 				String statut = montant >= prix ? "RP" : "RI";
 				recette = new Recette(datePaiement, vehicule.getCategorie().getPrixParJours(), montant, statut, vehicule, chauffeur);
-				
+				recetteRepository.save(recette);
 				return recette;
 			}
 			
@@ -79,6 +88,7 @@ public class RecetteService {
 			return recette;
 		} catch (Exception e) {
 			// TODO: handle exception
+			Assert.isTrue(false , e.getMessage());
 			e.printStackTrace();
 		}
 		return null;

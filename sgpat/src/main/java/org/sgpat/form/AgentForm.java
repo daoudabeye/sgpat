@@ -18,7 +18,7 @@ public class AgentForm {
 	}
 	
 	public Proprio createProprio(){
-		return new Proprio(adresse, designation, email, telephone);
+		return new Proprio(adresse, designation, email, telephone, "banque", "0");
 	}
 	public String getNom() {
 		return nom;

@@ -111,7 +111,9 @@
 										<td class="text-right">
 											<a class="btn btn-default btn-xs" th:href="@{'/conducteur/salaire?methode=get&montant=0&date=date&codeChauffeur='+ ${chauffeur.codeChauffeur}}">Salaire</a>
 											<a class="btn btn-default btn-xs" th:href="@{'/vehicule/recettes?date=ALL&fragment=false&codeChauffeur='+ ${chauffeur.codeChauffeur}}">Recettes</a>
-											<button class="btn btn-default btn-xs">Bloquer</button>
+											<a class="btn btn-default btn-xs">Bloquer</a>
+											<a class="btn btn-default btn-xs" th:href="@{'/conducteur/modifier?codeChauffeur='+ ${chauffeur.codeChauffeur}}">Modifier</a>
+											<button class="btn btn-default btn-xs">Supprimer</button>
 										</td>
 									</tr>
 								</tbody>

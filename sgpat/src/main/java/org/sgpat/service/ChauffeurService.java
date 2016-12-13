@@ -18,28 +18,28 @@ public class ChauffeurService {
 
 	@Autowired
 	ChauffeurRepository chauffeurRepository;
-	
+
 	@Autowired
 	SalaireRepository salaireRepository;
-	
+
 	public Chauffeur findByCode(String code){
 		return chauffeurRepository.findByCodeChauffeur(code);
 	}
-	
+
 	public List<Chauffeur> getAll(){
 		return chauffeurRepository.getAll();
 	}
-	
+
 	public List<Salaire> findSalaire(String codeChauffeur){
 		return salaireRepository.findByChauffeurCodeChauffeur(codeChauffeur);
 	}
 	public List<Salaire> findAllSalaire(){
 		return salaireRepository.findAll();
 	}
-	
+
 	@Transactional
 	public Salaire saveSalaire(Double montant, String codeChauffeur, String date){
-		
+
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Salaire salaire;
 		try {
@@ -53,12 +53,12 @@ public class ChauffeurService {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
-	
-public Chauffeur createSalaire(Double montant, String codeChauffeur, String date){
-		
+
+	public Chauffeur createSalaire(Double montant, String codeChauffeur, String date){
+
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Salaire salaire;
 		Chauffeur chauffeur= null;
@@ -73,27 +73,32 @@ public Chauffeur createSalaire(Double montant, String codeChauffeur, String date
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		
+
 		return chauffeur;
 	}
-	
+
 	@Transactional
 	public Chauffeur create(ConducteurForm conducteurForm) {
 		Chauffeur chauffeur = conducteurForm.create();
 		chauffeur  = chauffeurRepository.save(chauffeur);
 		chauffeur.setProfile("TAXI");
-		
+
 		String code = chauffeur.getId()+"";
-		
+
 		int lenth = code.length();
 		for(int i=3; i>0; i--, lenth--){
 			if(lenth <= 0)
 				code = "0"+code;
 		}
 		code = "CH"+code;
-		
+
 		chauffeurRepository.updateCode(chauffeur.getId(), code);
-		
+
 		return chauffeur;
+	}
+	
+	@Transactional
+	public Chauffeur update(ConducteurForm conducteurForm) {
+		return null;
 	}
 }

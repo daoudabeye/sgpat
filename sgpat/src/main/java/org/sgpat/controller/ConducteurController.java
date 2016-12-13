@@ -40,6 +40,17 @@ public class ConducteurController {
 	@Secured({"ROLE_AGENT", "ROLE_ADMIN"})
 	public String chauffeur(Model model){
 		model.addAttribute(new ConducteurForm());
+		model.addAttribute("update", "false");
+		return CHAUFFEUR_VIEW;
+	}
+	
+	@RequestMapping(value = "modifier", params = "codeChauffeur", method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	@Secured({"ROLE_AGENT", "ROLE_ADMIN"})
+	public String modifier(Model model, @RequestParam("codeChauffeur") String codeChauffeur){
+		Chauffeur chauffeur = chauffeurService.findByCode(codeChauffeur);
+		model.addAttribute(new ConducteurForm(chauffeur));
+		model.addAttribute("update", "true");
 		return CHAUFFEUR_VIEW;
 	}
 
@@ -76,18 +87,25 @@ public class ConducteurController {
 		return path +" :: " +fragment ;
 	}
 
-	@RequestMapping(value = "nouveau", params = { "controller" }, method = RequestMethod.POST)
+	@RequestMapping(value = "nouveau", params = { "controller" , "update"}, method = RequestMethod.POST)
 	@Secured({"ROLE_AGENT", "ROLE_ADMIN"})
 	public String nouveau(@Valid @ModelAttribute ConducteurForm conducteurForm, Errors errors, Model model,
-			RedirectAttributes ra, @RequestParam("controller") String controller) {
+			RedirectAttributes ra, @RequestParam("controller") String controller,
+			@RequestParam("update") String update) {
 		if (errors.hasErrors()) {
 			model.addAttribute("errorMessage", errors.toString());
 			return CHAUFFEUR_VIEW;
 		}
 		try {
-			chauffeurService.create(conducteurForm);
-			model.addAttribute("success", "Le compte à été créer avec succès");
-
+			if(update.equals("false")){
+				chauffeurService.create(conducteurForm);
+				model.addAttribute("success", "Le compte à été créer avec succès");
+			}
+			else if(update.equals("true")){
+				chauffeurService.create(conducteurForm);
+				model.addAttribute("success", "Le compte à été créer avec succès");
+			}
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 			model.addAttribute("errorMessage", "Erreur :"+e.getMessage());

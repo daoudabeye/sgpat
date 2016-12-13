@@ -32,6 +32,7 @@ public class AdminController {
 	private final static String OPERATION = "caisse/operation";
 	private final static String PARTENAIRES = "administration/partenaires";
 	private final static String PROFILE_PARTENAIRES = "administration/profile_partenaire";
+	private static final String PROPRIO_VIEW = "administration/partenaires";
 	
 	@Autowired
 	AdminService adminService;
@@ -108,5 +109,26 @@ public class AdminController {
 		}
 		
 		return CREER_COMPTE_VIEW;
+	}
+	
+	@RequestMapping(value = "partenaires/new", method = RequestMethod.POST)
+	@Secured({"ROLE_AGENT", "ROLE_ADMIN"})
+	public String maintenance(@Valid @ModelAttribute ProprioForm proprioForm, Errors errors, Model model,
+			RedirectAttributes ra) {
+		if (errors.hasErrors()) {
+			return PROPRIO_VIEW;
+		}
+		
+		try {
+			proprioService.create(proprioForm);
+			model.addAttribute("success", "Le Compte Enregistré avec succès");
+		} catch (Exception e) {
+			// TODO: handle exception
+			model.addAttribute("errorMessage", "Erreur :"+e.getMessage());
+			e.printStackTrace();
+		}
+		
+		model.addAttribute("proprios", proprioService.findAll());
+		return PROPRIO_VIEW;
 	}
 }

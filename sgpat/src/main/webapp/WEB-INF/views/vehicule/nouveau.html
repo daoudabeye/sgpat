@@ -29,6 +29,9 @@
 	th:href="@{/resources/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css}" />
 
 <link rel="stylesheet" media="screen"
+	th:href="@{/resources/select2-3.5.2/select2.css}" />
+
+<link rel="stylesheet" media="screen"
 	th:href="@{/resources/bootstrap-datepicker-master/css/bootstrap-datepicker3.min.css}" />
 
 <!-- App styles -->
@@ -115,43 +118,43 @@
 															<span class="input-group-addon"><i
 																class="pe-7s-info"></i></span> <input type="text"
 																placeholder="Marque" class="form-control"
-																th:field="*{marque}" th:classappend="${#fields.hasErrors('marque')}? 'error'">
+																th:field="*{marque}"
+																th:classappend="${#fields.hasErrors('marque')}? 'error'">
 														</div>
 														<div class="input-group m-b">
 															<span class="input-group-addon"><i
 																class="pe-7s-info"></i></span> <input type="text"
 																placeholder="Type" class="form-control"
-																th:field="*{type}"  th:classappend="${#fields.hasErrors('type')}? 'error'">
+																th:field="*{type}"
+																th:classappend="${#fields.hasErrors('type')}? 'error'">
 														</div>
 														<div class="input-group m-b">
 															<span class="input-group-addon"><i
 																class="pe-7s-info"></i></span> <input type="text"
 																placeholder="Immatriculation" class="form-control"
-																th:field="*{immatriculation}" th:classappend="${#fields.hasErrors('immatriculation')}? 'error'">
+																th:field="*{immatriculation}"
+																th:classappend="${#fields.hasErrors('immatriculation')}? 'error'">
 														</div>
 														<div class="input-group m-b">
 															<span class="input-group-addon"><i
 																class="pe-7s-info"></i></span> <input type="text"
 																placeholder="Numero de serie" class="form-control"
-																th:field="*{numeroSerie}" th:classappend="${#fields.hasErrors('numeroSerie')}? 'error'">
+																th:field="*{numeroSerie}"
+																th:classappend="${#fields.hasErrors('numeroSerie')}? 'error'">
 														</div>
 														<div class="input-group m-b">
 															<span class="input-group-addon"><i
 																class="pe-7s-info"></i></span> <input type="text"
 																placeholder="Couleur" class="form-control"
-																th:field="*{couleur}" th:classappend="${#fields.hasErrors('couleur')}? 'error'">
+																th:field="*{couleur}"
+																th:classappend="${#fields.hasErrors('couleur')}? 'error'">
 														</div>
 														<div class="input-group m-b">
 															<span class="input-group-addon"><i
 																class="pe-7s-info"></i></span> <input type="text"
 																placeholder="Niveau Carburant" class="form-control"
-																th:field="*{niveauCarburant}" th:classappend="${#fields.hasErrors('niveauCarburant')}? 'error'">
-														</div>
-														<div class="input-group m-b">
-															<span class="input-group-addon"><i
-																class="pe-7s-info"></i></span> <input type="text"
-																placeholder="chauffeur" class="form-control"
-																th:field="*{chauffeur}" th:classappend="${#fields.hasErrors('chauffeur')}? 'error'">
+																th:field="*{niveauCarburant}"
+																th:classappend="${#fields.hasErrors('niveauCarburant')}? 'error'">
 														</div>
 													</div>
 												</fieldset>
@@ -164,18 +167,6 @@
 																<i class="pe-7s-info"></i><span class="font-icon-name">
 																	Autres infos</span>
 															</legend>
-															<div class="input-group m-b">
-																<span class="input-group-addon"><i
-																	class="pe-7s-info"></i></span> <input type="text"
-																	placeholder="Prix Achat" class="form-control"
-																	th:field="*{prixAchat}" th:classappend="${#fields.hasErrors('prixAchat')}? 'error'">
-															</div>
-															<div class="input-group m-b">
-																<span class="input-group-addon"><i
-																	class="pe-7s-info"></i></span> <input type="text"
-																	placeholder="Kilometrage" class="form-control"
-																	th:field="*{kilometrageActuel}" th:classappend="${#fields.hasErrors('kilometrageActuel')}? 'error'">
-															</div>
 															<p>
 																<b>Roue de sécours</b>.
 															</p>
@@ -190,15 +181,33 @@
 																	for="inlineRoueNom"> NOM </label>
 															</div>
 															<div class="m-t-md">
-																<h5>Poprio</h5>
-																<input type="text" placeholder="Poprio"
-																	class="form-control" th:field="*{proprio}"
-																	th:classappend="${#fields.hasErrors('proprio')}? 'error'">
+																<h5>Chauffeur</h5>
+																<select
+																	th:classappend="${#fields.hasErrors('chauffeur')}? 'error'"
+																	class="js-source-states" style="width: 100%"
+																	th:field="*{chauffeur}">
+																	<option value="">Choisir</option>
+																	<option th:each="chauffeur : ${chauffeurs}"
+																		th:text="${chauffeur.nom+' '+ chauffeur.prenom+' ('+chauffeur.codeChauffeur+')'}"
+																		th:value="${chauffeur.codeChauffeur}">Alaska</option>
+																</select>
+															</div>
+															<div class="m-t-md">
+																<h5>Proprio</h5>
+																<select
+																	th:classappend="${#fields.hasErrors('proprio')}? 'error'"
+																	class="js-source-states" style="width: 100%"
+																	th:field="*{proprio}">
+																	<option th:each="proprio : ${proprios}"
+																		th:value="${proprio.codeProprio}"
+																		th:text="${proprio.designation}">Alaska</option>
+																</select>
 															</div>
 															<div class="m-t-md">
 																<h5>Nombre de places</h5>
 																<input id="places" type="text" name="remise" value="0"
-																	th:field="*{nombreDePlace}" th:classappend="${#fields.hasErrors('nombreDePlace')}? 'error'">
+																	th:field="*{nombreDePlace}"
+																	th:classappend="${#fields.hasErrors('nombreDePlace')}? 'error'">
 															</div>
 														</fieldset>
 													</div>
@@ -209,11 +218,13 @@
 																	Catégorie </span>
 															</legend>
 															<div class="input-group m-b">
-																<span class="input-group-addon"><i
-																	class="pe-7s-info"></i></span> <input type="text"
-																	class="form-control" placeholder="Nom catégorie"
-																	th:field="*{nomCategorie}" th:classappend="${#fields.hasErrors('nomCategorie')}? 'error'"/> <span
-																	class="input-group-btn">
+																<select
+																	th:classappend="${#fields.hasErrors('nomCategorie')}? 'error'"
+																	class="js-source-states" style="width: 100%"
+																	th:field="*{nomCategorie}">
+																	<option th:each="categorie : ${categories}"
+																		th:value="${categorie.nom}" th:text="${categorie.nom}">Alaska</option>
+																</select> <span class="input-group-btn">
 																	<button type="button" class="btn btn-info"
 																		data-toggle="modal" data-target="#addCategorieModal">
 																		<i class="fa fa-plus-square-o"></i>
@@ -222,10 +233,15 @@
 															</div>
 
 															<div class="input-group m-b">
-																<span class="input-group-addon"><i
-																	class="pe-7s-info"></i></span> <input type="text"
-																	placeholder="Classe" class="form-control"
-																	th:field="*{classe}" th:classappend="${#fields.hasErrors('classe')}? 'error'">
+																<h5>Classe Véhicule</h5>
+																<select
+																	th:classappend="${#fields.hasErrors('classe')}? 'error'"
+																	class="js-source-states" style="width: 100%"
+																	th:field="*{classe}">
+																	<option value="TAXI">TAXI</option>
+																	<option value="PERSONNEL">PERSONNEL</option>
+																	<option value="LOCATION">LOCATION</option>
+																</select>
 															</div>
 															<p>
 																<b>Energie</b>.
@@ -233,7 +249,7 @@
 															<div class="radio radio-success radio-inline">
 																<input type="radio" id="inlineRadio1" value="ESSENCE"
 																	name="radioInline" checked="checked"
-																	th:field="*{energie}" > <label
+																	th:field="*{energie}"> <label
 																	for="inlineRadio1"> Essence </label>
 															</div>
 															<div class="radio radio-info radio-inline">
@@ -249,7 +265,8 @@
 															<h5>Observations</h5>
 															<div class="input-group">
 																<textarea class="form-control"
-																	th:field="*{observations}" th:classappend="${#fields.hasErrors('observations')}? 'error'"> </textarea>
+																	th:field="*{observations}"
+																	th:classappend="${#fields.hasErrors('observations')}? 'error'"> </textarea>
 																<span class="input-group-btn"> </span>
 															</div>
 															<h5>Date Mise En Service</h5>
@@ -294,13 +311,13 @@
 					<div class="modal-body">
 						<!-- Header -->
 						<div class="row">
-						<th:block th:if="${categorieForm}">
-							<form th:method="post" class="form-horizontal"
-								th:action="@{/location/new?controller=self}"
-								th:object="${categorieForm}">
-								<div th:replace="vehicule/categorie :: in-form">&nbsp;</div>
-							</form>
-						</th:block>
+							<th:block th:if="${categorieForm}">
+								<form th:method="post" class="form-horizontal"
+									th:action="@{/location/new?controller=self}"
+									th:object="${categorieForm}">
+									<div th:replace="vehicule/categorie :: in-form">&nbsp;</div>
+								</form>
+							</th:block>
 						</div>
 
 					</div>
@@ -324,7 +341,7 @@
 	<script th:src="@{/resources/slimScroll/jquery.slimscroll.min.js}"></script>
 	<script th:src="@{/resources/bootstrap/js/bootstrap.min.js}"></script>
 	<script th:src="@{/resources/metisMenu/metisMenu.min.js}"></script>
-
+	<script th:src="@{/resources/select2-3.5.2/select2.min.js}"></script>
 	<script
 		th:src="@{/resources/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js}"></script>
 	<script
@@ -354,6 +371,9 @@
 			$('#datapicker3').datepicker();
 			$('#datepicker .input-group.date').datepicker({});
 			$('#datepicker .input-daterange').datepicker({});
+
+			$(".js-source-states").select2();
+			$(".js-source-states-2").select2();
 
 		});
 	</script>

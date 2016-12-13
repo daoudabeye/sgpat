@@ -71,6 +71,37 @@ public class ConducteurForm {
 	private String profile;
 	
 	private Double caution;
+	
+	public ConducteurForm(){
+		
+	}
+
+	
+	public ConducteurForm(Chauffeur chauffeur) {
+		super();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		this.nom = chauffeur.getNom();
+		this.prenom = chauffeur.getPrenom();
+		this.dateNaissance = sdf.format(chauffeur.getDateNaissance());;
+		this.lieuNaissance = chauffeur.getLieuNaissance();
+		this.adresse = chauffeur.getAdresse();
+		this.telephone = chauffeur.getTelephone();
+		this.typePiece = "PERMIS";
+		this.numeroPiece = chauffeur.getNumeroPermis();
+		this.dateExpiration = sdf.format(chauffeur.getExpirationPermis());
+		this.sexe = chauffeur.getSexe();
+		this.etatcivil = chauffeur.getEtatCivil();
+		this.niveauEtude = chauffeur.getNiveauEtude();
+		this.experience = chauffeur.getExperience();
+		this.urgence = chauffeur.getNumeroUrgence();
+		this.langue = chauffeur.getLangue();
+		this.nationnalite = chauffeur.getNationnalite();
+		this.dateDebutActivite = sdf.format(chauffeur.getDateDebutActivite());
+		this.salaire =  chauffeur.getSalaire();
+		this.profile = chauffeur.getProfile();
+		this.caution = chauffeur.getCaution();
+	}
+
 
 	public Chauffeur create(){
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -88,7 +119,8 @@ public class ConducteurForm {
 		}
 		
 		return new Chauffeur(nom, prenom, adresse, profile, dateN, salaire, dateE, lieuNaissance,
-				numeroPiece, "CD", telephone, dateA, caution);
+				numeroPiece, "CD", telephone, dateA, caution, sexe, etatcivil, niveauEtude, experience, urgence,
+				langue, nationnalite);
 	}
 	
 	public Boolean hasPermis(){

@@ -59,6 +59,23 @@ public class Chauffeur implements Serializable {
 	private Double salaire;
 	
 	private Double caution;
+	
+	private String sexe;
+
+	@Column(name = "etat_civil")
+	private String etatCivil;
+
+	@Column(name = "niveau_etude")
+	private String niveauEtude;
+
+	private String experience;
+
+	@Column(name = "numero_urgence")
+	private String numeroUrgence;
+
+	private String langue;
+
+	private String nationnalite;
 
 	//bi-directional many-to-one association to Vehicule
 	@OneToMany(mappedBy="chauffeur")
@@ -74,7 +91,8 @@ public class Chauffeur implements Serializable {
 
 	public Chauffeur(String nom, String prenom, String adresse, String profile, Date dateNaissance, Double salaire,
 			Date expirationPermis, String lieuNaissance, String numeroPermis, String statut, String telephone,
-			Date dateDebutActivite , Double caution) {
+			Date dateDebutActivite , Double caution, String sexe, String etatCivile, String niveauEtude, String experience, String urgence,
+			String langue, String nationnalite ) {
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
@@ -90,6 +108,13 @@ public class Chauffeur implements Serializable {
 		this.dateCreation = new Date();
 		this.dateDebutActivite = dateDebutActivite;
 		this.caution = caution;
+		this.sexe = sexe;
+		this.etatCivil = etatCivile;
+		this.niveauEtude = niveauEtude;
+		this.experience = experience;
+		this.numeroUrgence = urgence;
+		this.langue = langue;
+		this.nationnalite = nationnalite;
 	}
 
 	public int getId() {
@@ -261,6 +286,62 @@ public class Chauffeur implements Serializable {
 
 	public void setCaution(Double caution) {
 		this.caution = caution;
+	}
+
+	public String getSexe() {
+		return sexe;
+	}
+
+	public void setSexe(String sexe) {
+		this.sexe = sexe;
+	}
+
+	public String getEtatCivil() {
+		return etatCivil;
+	}
+
+	public void setEtatCivil(String etatCivil) {
+		this.etatCivil = etatCivil;
+	}
+
+	public String getNiveauEtude() {
+		return niveauEtude;
+	}
+
+	public void setNiveauEtude(String niveauEtude) {
+		this.niveauEtude = niveauEtude;
+	}
+
+	public String getExperience() {
+		return experience;
+	}
+
+	public void setExperience(String experience) {
+		this.experience = experience;
+	}
+
+	public String getNumeroUrgence() {
+		return numeroUrgence;
+	}
+
+	public void setNumeroUrgence(String numeroUrgence) {
+		this.numeroUrgence = numeroUrgence;
+	}
+
+	public String getLangue() {
+		return langue;
+	}
+
+	public void setLangue(String langue) {
+		this.langue = langue;
+	}
+
+	public String getNationnalite() {
+		return nationnalite;
+	}
+
+	public void setNationnalite(String nationnalite) {
+		this.nationnalite = nationnalite;
 	}
 
 	

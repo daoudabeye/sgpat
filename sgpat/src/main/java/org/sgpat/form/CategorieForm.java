@@ -1,14 +1,26 @@
 package org.sgpat.form;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.sgpat.entity.Categorie;
 
 public class CategorieForm {
 
+	private static final String NOT_BLANK_MESSAGE = "{notBlank.message}";
+
+	@NotBlank(message = CategorieForm.NOT_BLANK_MESSAGE)
 	private String nomCategorie;
+	
+	@NotBlank(message = CategorieForm.NOT_BLANK_MESSAGE)
 	private Double prixJours;
+	
+	@NotBlank(message = CategorieForm.NOT_BLANK_MESSAGE)
 	private Double prixHeure;
+	
 	private Double penaliteHeure;
+	
+	@NotBlank(message = CategorieForm.NOT_BLANK_MESSAGE)
 	private Integer poucentagePoprio;
+	
 	private String note;
 	
 	public Categorie create(){

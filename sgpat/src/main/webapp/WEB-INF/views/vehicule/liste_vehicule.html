@@ -97,10 +97,10 @@
 										<th>Matricule</th>
 										<th>Serie</th>
 										<th>Couleur</th>
-										<th>Kilometrage</th>
 										<th>Energie</th>
 										<th>Statut</th>
 										<th>Poprio</th>
+										<th>Action</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -111,10 +111,13 @@
 										<td><div  th:text=${vehicule.immatriculation}></div></td>
 										<td class="text-center" ><div class="label label-info"  th:text=${vehicule.numeroSerie}></div></td>
 										<td class="text-center" > <div th:text=${vehicule.couleur}></div></td>
-										<td class="text-center" ><span class="label label-info" th:text=${vehicule.kilometrageActuel}></span></td>
 										<td><span class="label label-info" th:text=${vehicule.energie}></span></td>
 										<td><span class="label label-success" th:text=${vehicule.etat}>EL</span></td>
 										<td><span class="label label-success" th:text=${vehicule.proprio.designation}>TAXI-PLUS</span></td>
+										<td class="text-right">
+											<a class="btn btn-default btn-xs" >Modifier</a>
+											<a class="btn btn-default btn-xs">Supprimer</a>
+										</td>
 									</tr>
 								</tbody>
 							</table>

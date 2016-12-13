@@ -14,6 +14,7 @@ import org.sgpat.form.MaintenanceForm;
 import org.sgpat.form.VehiculeForm;
 import org.sgpat.service.CategorieService;
 import org.sgpat.service.ChauffeurService;
+import org.sgpat.service.ProprioService;
 import org.sgpat.service.RecetteService;
 import org.sgpat.service.VehiculeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,9 @@ public class VehiculeController {
 	
 	@Autowired
 	RecetteService recetteService;
+	
+	@Autowired
+	ProprioService proprioService;
 
 	@RequestMapping(value = "new", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
@@ -58,6 +62,9 @@ public class VehiculeController {
 	public String location(Model model){
 		model.addAttribute(new VehiculeForm());
 		model.addAttribute(new CategorieForm());
+		model.addAttribute("categories", categorieService.getAll());
+		model.addAttribute("proprios", proprioService.findAll());
+		model.addAttribute("chauffeurs", chauffeurService.getAll());
 		return NEW_VEHICULE_VIEW;
 	}
 	
@@ -93,7 +100,15 @@ public class VehiculeController {
 	public String paiementRecette(Model model, @Param("date") String date, @Param("codeChauffeur") String codeChauffeur,
 			@Param("montant") String montant){
 		
-		Recette recette = recetteService.paiement(codeChauffeur, date, Double.valueOf(montant));
+		Recette recette = null;
+		try {
+			recette = recetteService.paiement(codeChauffeur, date, Double.valueOf(montant));
+		} catch (Exception e) {
+			// TODO: handle exception
+			model.addAttribute("errorMessage", e.getMessage());
+			e.printStackTrace();
+		}
+		
 		
 		List<Recette> recettes = new ArrayList<>();
 		if(recette != null)recettes.add(recette);
@@ -157,6 +172,9 @@ public class VehiculeController {
 	public String nouveau(@Valid @ModelAttribute VehiculeForm vehiculeForm, Errors errors, Model model,
 			RedirectAttributes ra, @RequestParam("controller") String controller) {
 		if (errors.hasErrors()) {
+			model.addAttribute("categories", categorieService.getAll());
+			model.addAttribute("proprios", proprioService.findAll());
+			model.addAttribute("chauffeurs", chauffeurService.getAll());
 			return NEW_VEHICULE_VIEW;
 		}
 		
@@ -164,9 +182,12 @@ public class VehiculeController {
 			vehiculeService.create(vehiculeForm);
 			model.addAttribute("success", "Le compte à été créer avec succès");
 		} catch (Exception e) {
-			// TODO: handle exception
-			model.addAttribute("errorMessage", "Erreur :"+e.getMessage());
+			model.addAttribute("categories", categorieService.getAll());
+			model.addAttribute("proprios", proprioService.findAll());
+			model.addAttribute("chauffeurs", chauffeurService.getAll());
+			model.addAttribute("errorMessage", "Erreur : "+e.getMessage());
 			e.printStackTrace();
+			return NEW_VEHICULE_VIEW;
 		}
 		return "redirect:/vehicule/new";
 	}

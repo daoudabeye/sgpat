@@ -46,6 +46,8 @@ public class Proprio implements Serializable {
 	
 	private String banque;
 	
+	private String mensualite;
+	
 	@Column(name="numero_compte")
 	private String numeroCompte;
 	
@@ -64,12 +66,15 @@ public class Proprio implements Serializable {
 	public Proprio() {
 	}
 	
-	public Proprio(String adresse, String designation, String email, String telephone) {
+	public Proprio(String adresse, String designation, String email, String telephone,
+			String banque, String mensualite) {
 		super();
 		this.adresse = adresse;
 		this.designation = designation;
 		this.email = email;
 		this.telephone = telephone;
+		this.banque = banque;
+		this.mensualite = mensualite;
 		this.dateInscription = new Date();
 	}
 
@@ -177,6 +182,14 @@ public class Proprio implements Serializable {
 
 	public void setNumeroCompte(String numeroCompte) {
 		this.numeroCompte = numeroCompte;
+	}
+
+	public String getMensualite() {
+		return mensualite;
+	}
+
+	public void setMensualite(String mensualite) {
+		this.mensualite = mensualite;
 	}
 
 }

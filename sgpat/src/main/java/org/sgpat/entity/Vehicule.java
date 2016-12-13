@@ -60,7 +60,7 @@ public class Vehicule implements Serializable {
 	private String observations;
 
 	@Column(name="prix_achat")
-	private double prixAchat;
+	private Double prixAchat;
 
 	@Column(name="roue_de_secours")
 	private Boolean roueDeSecours;
@@ -115,9 +115,9 @@ public class Vehicule implements Serializable {
 		this.setDateCreation(new Date());
 	}
 
-	public Vehicule(String classe, String marque, String couleur, int nombreDePlace, String immatriculation,
+	public Vehicule(String classe, String marque, String couleur, Integer nombreDePlace, String immatriculation,
 			String niveauCarburant, String energie, String kilometrageInitial, String kilometrageActuel,
-			Boolean roueDeSecours, Date dateMiseEnService, String numeroSerie, String observations, double prixAchat,
+			Boolean roueDeSecours, Date dateMiseEnService, String numeroSerie, String observations, Double prixAchat,
 			String type) {
 		super();
 		this.classe = classe;
@@ -250,11 +250,11 @@ public class Vehicule implements Serializable {
 		this.observations = observations;
 	}
 
-	public double getPrixAchat() {
+	public Double getPrixAchat() {
 		return this.prixAchat;
 	}
 
-	public void setPrixAchat(double prixAchat) {
+	public void setPrixAchat(Double prixAchat) {
 		this.prixAchat = prixAchat;
 	}
 
