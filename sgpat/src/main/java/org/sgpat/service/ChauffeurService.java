@@ -12,6 +12,7 @@ import org.sgpat.repository.SalaireRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 @Service
 public class ChauffeurService {
@@ -98,7 +99,22 @@ public class ChauffeurService {
 	}
 	
 	@Transactional
-	public Chauffeur update(ConducteurForm conducteurForm) {
-		return null;
+	public Boolean update(String codeChauffeur, ConducteurForm conducteurForm) {
+		Chauffeur chauffeur = conducteurForm.create();
+		int update = chauffeurRepository.update(codeChauffeur, chauffeur.getNom(), chauffeur.getPrenom(), chauffeur.getAdresse(), chauffeur.getProfile(), chauffeur.getDateNaissance(), chauffeur.getSalaire(),
+				chauffeur.getExpirationPermis(), chauffeur.getLieuNaissance(), chauffeur.getNumeroPermis(), chauffeur.getStatut(), chauffeur.getTelephone(),
+				chauffeur.getDateDebutActivite(), chauffeur.getCaution(), chauffeur.getSexe(), chauffeur.getEtatCivil(), chauffeur.getNiveauEtude(), chauffeur.getExperience(),
+				chauffeur.getNumeroUrgence(), chauffeur.getLangue(), chauffeur.getNationnalite());
+		if(update > 0)
+			return true;
+		else
+			return false;
+	}
+	
+	@Transactional
+	public void remove(String codeChauffeur){
+		Chauffeur chauffeur = chauffeurRepository.findByCodeChauffeur(codeChauffeur);
+		Assert.notNull(chauffeur, "Aucun resultat");
+		chauffeurRepository.delete(chauffeur);
 	}
 }

@@ -1,5 +1,7 @@
 package org.sgpat.form;
 
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.NotBlank;
 import org.sgpat.entity.Categorie;
 
@@ -18,7 +20,7 @@ public class CategorieForm {
 	
 	private Double penaliteHeure;
 	
-	@NotBlank(message = CategorieForm.NOT_BLANK_MESSAGE)
+	@NotNull(message = "Merci d'indiquez le pourcentage proprio")
 	private Integer poucentagePoprio;
 	
 	private String note;

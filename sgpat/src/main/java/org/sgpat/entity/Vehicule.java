@@ -69,7 +69,7 @@ public class Vehicule implements Serializable {
 
 	//bi-directional many-to-one association to DocumentVehicule
 	@OneToMany(mappedBy="vehicule")
-	private List<DocumentVehicule> documentVehicules;
+	private List<Document> documentVehicules;
 
 	//bi-directional many-to-one association to Location
 	@OneToMany(mappedBy="vehicule")
@@ -274,22 +274,22 @@ public class Vehicule implements Serializable {
 		this.type = type;
 	}
 
-	public List<DocumentVehicule> getDocumentVehicules() {
+	public List<Document> getDocumentVehicules() {
 		return this.documentVehicules;
 	}
 
-	public void setDocumentVehicules(List<DocumentVehicule> documentVehicules) {
+	public void setDocumentVehicules(List<Document> documentVehicules) {
 		this.documentVehicules = documentVehicules;
 	}
 
-	public DocumentVehicule addDocumentVehicule(DocumentVehicule documentVehicule) {
+	public Document addDocumentVehicule(Document documentVehicule) {
 		getDocumentVehicules().add(documentVehicule);
 		documentVehicule.setVehicule(this);
 
 		return documentVehicule;
 	}
 
-	public DocumentVehicule removeDocumentVehicule(DocumentVehicule documentVehicule) {
+	public Document removeDocumentVehicule(Document documentVehicule) {
 		getDocumentVehicules().remove(documentVehicule);
 		documentVehicule.setVehicule(null);
 

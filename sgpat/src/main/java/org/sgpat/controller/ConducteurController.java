@@ -7,6 +7,7 @@ import org.sgpat.entity.Salaire;
 import org.sgpat.entity.Vehicule;
 import org.sgpat.form.ConducteurForm;
 import org.sgpat.service.ChauffeurService;
+import org.sgpat.service.RecetteService;
 import org.sgpat.service.VehiculeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,20 +29,42 @@ public class ConducteurController {
 	private static final String CHAUFFEUR_VIEW = "conducteur/nouveau";
 	private static final String SALAIRE_VIEW = "conducteur/salaire";
 	private static final String LISTE_VIEW = "conducteur/liste";
+	private static final String PROFILE_VIEW = "conducteur/profile_chauffeur";
 
 	@Autowired
 	ChauffeurService chauffeurService;
 
 	@Autowired
 	VehiculeService vehiculeService;
+	
+	@Autowired
+	RecetteService recetteService;
 
-	@RequestMapping(value = "nouveau", method = RequestMethod.GET)
+	@RequestMapping(value = "nouveau", params = "message", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	@Secured({"ROLE_AGENT", "ROLE_ADMIN"})
-	public String chauffeur(Model model){
+	public String chauffeur(Model model, @RequestParam("message")String message){
 		model.addAttribute(new ConducteurForm());
 		model.addAttribute("update", "false");
+		if(message.equals("success"))
+			model.addAttribute("success", "Opération effectuée avec succès");
+		else if(message.equals("error"))
+			model.addAttribute("errorMessage", "Echec de l'operation");
+		
+			model.addAttribute("codeChauffeur", "codeChauffeur");
 		return CHAUFFEUR_VIEW;
+	}
+	
+	@RequestMapping(value = "profile", params = "codeChauffeur", method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	@Secured({"ROLE_AGENT", "ROLE_ADMIN"})
+	public String profile(Model model, @RequestParam("codeChauffeur") String codeChauffeur){
+		Chauffeur chauffeur = chauffeurService.findByCode(codeChauffeur);
+		model.addAttribute("chauffeur", chauffeur);
+		model.addAttribute("recettes", recetteService.findByChauffeur(chauffeur.getCodeChauffeur()));
+		model.addAttribute("vehicule", vehiculeService.findVehicule(chauffeur));
+		model.addAttribute("salaires", chauffeurService.findSalaire(codeChauffeur));
+		return PROFILE_VIEW;
 	}
 	
 	@RequestMapping(value = "modifier", params = "codeChauffeur", method = RequestMethod.GET)
@@ -50,8 +73,25 @@ public class ConducteurController {
 	public String modifier(Model model, @RequestParam("codeChauffeur") String codeChauffeur){
 		Chauffeur chauffeur = chauffeurService.findByCode(codeChauffeur);
 		model.addAttribute(new ConducteurForm(chauffeur));
+		model.addAttribute("codeChauffeur", chauffeur.getCodeChauffeur());
 		model.addAttribute("update", "true");
 		return CHAUFFEUR_VIEW;
+	}
+	
+	@RequestMapping(value = "supprimer", params = "codeChauffeur", method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	@Secured({"ROLE_ADMIN"})
+	public String supprimer(Model model, @RequestParam("codeChauffeur") String codeChauffeur){
+		try {
+			chauffeurService.remove(codeChauffeur);
+			model.addAttribute("success", "Compte "+codeChauffeur+" supprimé avec succès");
+		} catch (Exception e) {
+			// TODO: handle exception
+			model.addAttribute("errorMessage", "Impossible de supprimer le compte");
+		}
+		
+		model.addAttribute("chauffeurs", chauffeurService.getAll());
+		return LISTE_VIEW;
 	}
 
 	@RequestMapping(value = "liste", method = RequestMethod.GET)
@@ -87,11 +127,11 @@ public class ConducteurController {
 		return path +" :: " +fragment ;
 	}
 
-	@RequestMapping(value = "nouveau", params = { "controller" , "update"}, method = RequestMethod.POST)
+	@RequestMapping(value = "nouveau", params = { "controller" , "update", "codeChauffeur"}, method = RequestMethod.POST)
 	@Secured({"ROLE_AGENT", "ROLE_ADMIN"})
 	public String nouveau(@Valid @ModelAttribute ConducteurForm conducteurForm, Errors errors, Model model,
 			RedirectAttributes ra, @RequestParam("controller") String controller,
-			@RequestParam("update") String update) {
+			@RequestParam("update") String update ,@RequestParam("codeChauffeur") String  codeChauffeur) {
 		if (errors.hasErrors()) {
 			model.addAttribute("errorMessage", errors.toString());
 			return CHAUFFEUR_VIEW;
@@ -102,10 +142,12 @@ public class ConducteurController {
 				model.addAttribute("success", "Le compte à été créer avec succès");
 			}
 			else if(update.equals("true")){
-				chauffeurService.create(conducteurForm);
-				model.addAttribute("success", "Le compte à été créer avec succès");
+				Boolean updated = chauffeurService.update(codeChauffeur, conducteurForm);
+				if(updated)
+					model.addAttribute("success", "Le compte à été mise à jours");
+				else
+					model.addAttribute("errorMessage", "Impossible de faire la mise à jour.");
 			}
-			
 		} catch (Exception e) {
 			// TODO: handle exception
 			model.addAttribute("errorMessage", "Erreur :"+e.getMessage());
@@ -114,7 +156,7 @@ public class ConducteurController {
 			return CHAUFFEUR_VIEW;
 		}
 
-		return CHAUFFEUR_VIEW;
+		return "redirect:/conducteur/nouveau?message=success";
 	}
 
 	@RequestMapping(value = "salaire", params ={ "codeChauffeur", "montant", "date" , "methode"}, method = RequestMethod.GET)
@@ -140,7 +182,6 @@ public class ConducteurController {
 		}
 		if(methode.equals("globale")){
 			model.addAttribute("salires", chauffeurService.findAllSalaire());
-
 		}
 		
 		Chauffeur chauffeur = chauffeurService.findByCode(codeChauffeur);

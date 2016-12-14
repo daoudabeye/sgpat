@@ -37,6 +37,10 @@ public class RecetteService {
 		return recetteRepository.findByStatut(statut);
 	}
 	
+	public List<Recette> findByChauffeur(String codeChauffeur){
+		return recetteRepository.findByChauffeurCodeChauffeur(codeChauffeur);
+	}
+	
 	public List<Recette> getAll(){
 		return recetteRepository.getAll();
 	}

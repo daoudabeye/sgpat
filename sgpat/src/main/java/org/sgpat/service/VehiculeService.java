@@ -7,14 +7,18 @@ import org.sgpat.account.Account;
 import org.sgpat.account.AccountService;
 import org.sgpat.entity.Categorie;
 import org.sgpat.entity.Chauffeur;
+import org.sgpat.entity.Document;
 import org.sgpat.entity.Employee;
 import org.sgpat.entity.Maintenance;
+import org.sgpat.entity.Piece;
 import org.sgpat.entity.Proprio;
 import org.sgpat.entity.Vehicule;
 import org.sgpat.form.MaintenanceForm;
 import org.sgpat.form.VehiculeForm;
+import org.sgpat.repository.DocumentRepository;
 import org.sgpat.repository.EmployeeRepository;
 import org.sgpat.repository.MaintenanceRepository;
+import org.sgpat.repository.PieceRepository;
 import org.sgpat.repository.VehiculeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -46,12 +50,26 @@ public class VehiculeService {
 	@Autowired
 	MaintenanceRepository maintenanceRepository;
 	
+	@Autowired 
+	DocumentRepository documentRepository;
+	
+	@Autowired
+	PieceRepository pieceRepository;
+	
 	public List<Vehicule> getAll(){
 		return vehiculeRepository.getAll();
 	}
 	
+	public List<Piece> findPiece(String codeVehicule){
+		return pieceRepository.findByVehiculeCode(codeVehicule);
+	}
+	
 	public Vehicule findByCode(String code){
 		return vehiculeRepository.findByCode(code);
+	}
+	
+	public List<Document> findByVehicule(String codeVehicule){
+		return documentRepository.findByVehiculeCode(codeVehicule);
 	}
 	
 	public List<Vehicule> findByEtat(String classe, String etat){
@@ -62,6 +80,9 @@ public class VehiculeService {
 		return vehiculeRepository.findFirst1ByChauffeurCodeChauffeur(chauffeur.getCodeChauffeur());
 	}
 	
+	public List<Maintenance> findMaintenance(String codeVehicule){
+		return maintenanceRepository.findByVehiculeCode(codeVehicule);
+	}
 	public Long count(){
 		return vehiculeRepository.count();
 	}

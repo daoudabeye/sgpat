@@ -10,4 +10,6 @@ public interface MaintenanceRepository extends CrudRepository<Maintenance, Integ
 
 	@Query("SELECT m FROM Maintenance m order by m.id DESC")
 	public List<Maintenance> findAll();
+	
+	List<Maintenance> findByVehiculeCode(String codeVehicule);
 }

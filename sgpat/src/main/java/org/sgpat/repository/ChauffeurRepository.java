@@ -25,9 +25,9 @@ public interface ChauffeurRepository extends CrudRepository<Chauffeur, Integer> 
 	@Modifying
 	@Query("update Chauffeur c set c.nom=:nom, c.prenom=:prenom, c.adresse=:adresse,c.profile=:profile, c.dateNaissance=:dateNaissance, c.salaire=:salaire,"
 			+ " c.expirationPermis=:expirationPermis, c.lieuNaissance=:lieuNaissance, c.numeroPermis=:numeroPermis, c.statut=:statut, c.telephone=:telephone,"
-			+ "c.dateDebutActivite=:dateDebutActivite , ccaution=:caution, c.sexe=:sexe, c.etatCivil=:etatCivil, c.niveauEtude=:niveauEtude,"
-			+ " c.experience=:experience, c.numeroUrgence=:urgence,	c.langue=:langue, c.nationnalite=:nationnalite where c.id=:id")
-	int update(@Param("nom") String nom, @Param("prenom")String prenom, @Param("adresse") String adresse, @Param("profile") String profile,@Param("dateNaissance") Date dateNaissance, 
+			+ "c.dateDebutActivite=:dateDebutActivite , c.caution=:caution, c.sexe=:sexe, c.etatCivil=:etatCivil, c.niveauEtude=:niveauEtude,"
+			+ " c.experience=:experience, c.numeroUrgence=:urgence,	c.langue=:langue, c.nationnalite=:nationnalite where c.codeChauffeur=:codeChauffeur")
+	int update(@Param("codeChauffeur") String codeChauffeur, @Param("nom") String nom, @Param("prenom")String prenom, @Param("adresse") String adresse, @Param("profile") String profile,@Param("dateNaissance") Date dateNaissance, 
 			@Param("salaire") Double salaire, @Param("expirationPermis") Date expirationPermis, @Param("lieuNaissance")String lieuNaissance, @Param("numeroPermis") String numeroPermis, 
 			@Param("statut") String statut, @Param("telephone") String telephone,@Param("dateDebutActivite") Date dateDebutActivite , @Param("caution") Double caution, 
 			@Param("sexe") String sexe, @Param("etatCivil") String etatCivile, @Param("niveauEtude")  String niveauEtude, @Param("experience") String experience, @Param("urgence") String urgence,

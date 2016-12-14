@@ -38,6 +38,10 @@ public class Document implements Serializable {
 	@ManyToOne
 	private Client client;
 
+	//bi-directional many-to-one association to Vehicule
+	@ManyToOne
+	private Vehicule vehicule;
+
 	public Document() {
 	}
 
@@ -50,7 +54,7 @@ public class Document implements Serializable {
 		this.dateExpiration = dateExpiration;
 		this.paysEmetteur = paysEmetteur == null ? paysEmetteur : paysEmetteur.toUpperCase() ;
 	}
-	
+
 	public int getId() {
 		return this.id;
 	}
@@ -105,6 +109,14 @@ public class Document implements Serializable {
 
 	public void setClient(Client client) {
 		this.client = client;
+	}
+
+	public Vehicule getVehicule() {
+		return vehicule;
+	}
+
+	public void setVehicule(Vehicule vehicule) {
+		this.vehicule = vehicule;
 	}
 
 }

@@ -155,6 +155,7 @@
 												<p>Code Chauffeur</p>
 												<select class="js-source-states" style="width: 100%"
 													onselect="retrieveChauffeur()" id="codeChauffeur">
+													<option value="">--- Choisir----</option>
 													<option th:each="chauffeur : ${chauffeurs}"
 														onclick="retrieveChauffeur()"
 														th:value="${chauffeur.codeChauffeur}"

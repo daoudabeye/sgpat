@@ -92,7 +92,6 @@
 								<thead>
 									<tr>
 										<th>Code</th>
-										<th>Chauffeur</th>
 										<th>Classe</th>
 										<th>Matricule</th>
 										<th>Serie</th>
@@ -105,8 +104,7 @@
 								</thead>
 								<tbody>
 									<tr th:each="vehicule : ${vehicules}">
-										<td><div class="label label-primary" th:text=${vehicule.code}></div></td>
-										<td><div class="label label-primary" >CH0001</div></td>
+										<td><a th:href="@{'/vehicule/profile?codeVehicule=' + ${vehicule.code}}"><span class="label label-primary" th:text=${vehicule.code}></span></a></td>
 										<td><div  th:text=${vehicule.classe}></div></td>
 										<td><div  th:text=${vehicule.immatriculation}></div></td>
 										<td class="text-center" ><div class="label label-info"  th:text=${vehicule.numeroSerie}></div></td>

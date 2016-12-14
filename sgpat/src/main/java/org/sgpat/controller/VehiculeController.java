@@ -9,6 +9,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.sgpat.entity.Recette;
+import org.sgpat.entity.Vehicule;
 import org.sgpat.form.CategorieForm;
 import org.sgpat.form.MaintenanceForm;
 import org.sgpat.form.VehiculeForm;
@@ -40,6 +41,7 @@ public class VehiculeController {
 	private static final String MAINTENANCE_VIEW = "vehicule/maintenance";
 	private static final String LISTE_VEHICULE_VIEW = "vehicule/liste_vehicule";
 	private static final String RECETTE = "vehicule/recettes";
+	private static final String PROFILE_VEHICULE = "vehicule/profile_vehicule";
 	
 	@Autowired
 	VehiculeService vehiculeService;
@@ -92,6 +94,19 @@ public class VehiculeController {
 	public String listeVehicule(Model model){
 		model.addAttribute("vehicules", vehiculeService.getAll());
 		return LISTE_VEHICULE_VIEW;
+	}
+	
+	@RequestMapping(value = "profile", params={ "codeVehicule" } , method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	@Secured({"ROLE_AGENT", "ROLE_ADMIN"})
+	public String profile(Model model, @RequestParam("codeVehicule") String codeVehicule){
+		Vehicule vehicule = vehiculeService.findByCode(codeVehicule);
+		model.addAttribute("vehicule", vehicule);
+		model.addAttribute("doculents", vehiculeService.findByVehicule(codeVehicule));
+		model.addAttribute("chauffeurs", vehicule.getChauffeur());
+		model.addAttribute("maintenances", vehiculeService.findMaintenance(codeVehicule));
+		model.addAttribute("pieces", vehiculeService.findPiece(codeVehicule));
+		return PROFILE_VEHICULE;
 	}
 	
 	@RequestMapping(value = "payer", params = { "codeChauffeur" , "date" , "montant" }, method = RequestMethod.GET)

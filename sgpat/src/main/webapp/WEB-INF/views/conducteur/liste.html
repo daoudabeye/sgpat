@@ -77,6 +77,13 @@
 		<div class="content animate-panel">
 			<div class="row">
 				<div class="col-lg-12">
+					<th:block th:if="${errorMessage != null}">
+						<div
+							th:replace="fragments/alert :: alert (type='danger', message=${errorMessage})">Alert</div>
+					</th:block>
+					<div class="alert alert-success" th:if="${success != null}">
+						<div th:text="${success}"></div>
+					</div>
 
 					<div class="hpanel">
 						<div class="panel-heading">
@@ -100,21 +107,22 @@
 								</thead>
 								<tbody>
 									<tr th:each="chauffeur : ${chauffeurs}">
-										<td><span class="label label-primary"
-											th:text="${chauffeur.codeChauffeur}">CH0001</span></td>
+										<td><a th:href="@{'/conducteur/profile?codeChauffeur='+ ${chauffeur.codeChauffeur}}"><span class="label label-primary"
+											th:text="${chauffeur.codeChauffeur}">CH0001</span></a></td>
 										<td><span
 											th:text="${chauffeur.nom +' '+ chauffeur.prenom }">CH0001</span></td>
 										<td><span class="label label-success"
 											th:text="${chauffeur.telephone}">96347412</span></td>
 										<td><span class="label label-success"
 											th:text="${chauffeur.dateDebutActivite}">96347412</span></td>
-										<td class="text-right">
-											<a class="btn btn-default btn-xs" th:href="@{'/conducteur/salaire?methode=get&montant=0&date=date&codeChauffeur='+ ${chauffeur.codeChauffeur}}">Salaire</a>
-											<a class="btn btn-default btn-xs" th:href="@{'/vehicule/recettes?date=ALL&fragment=false&codeChauffeur='+ ${chauffeur.codeChauffeur}}">Recettes</a>
-											<a class="btn btn-default btn-xs">Bloquer</a>
-											<a class="btn btn-default btn-xs" th:href="@{'/conducteur/modifier?codeChauffeur='+ ${chauffeur.codeChauffeur}}">Modifier</a>
-											<button class="btn btn-default btn-xs">Supprimer</button>
-										</td>
+										<td class="text-right"><a class="btn btn-default btn-xs"
+											th:href="@{'/conducteur/salaire?methode=get&montant=0&date=date&codeChauffeur='+ ${chauffeur.codeChauffeur}}">Salaire</a>
+											<a class="btn btn-default btn-xs"
+											th:href="@{'/vehicule/recettes?date=ALL&fragment=false&codeChauffeur='+ ${chauffeur.codeChauffeur}}">Recettes</a>
+											<a class="btn btn-default btn-xs"
+											th:href="@{'/conducteur/modifier?codeChauffeur='+ ${chauffeur.codeChauffeur}}">Modifier</a>
+											<a class="btn btn-default btn-xs"
+											th:href="@{'/conducteur/supprimer?codeChauffeur='+ ${chauffeur.codeChauffeur}}">Supprimer</a></td>
 									</tr>
 								</tbody>
 							</table>

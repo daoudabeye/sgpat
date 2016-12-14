@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!-- Page title -->
+<title>SGPAT | Profile Chauffeur</title>
+
+<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+<!--<link rel="shortcut icon" type="image/ico" href="favicon.ico" />-->
+
+<!-- Vendor styles -->
+<link href="../../../resources/fontawesome/css/font-awesome.css"
+	rel="stylesheet" media="screen"
+	th:href="@{/resources/fontawesome/css/font-awesome.css}" />
+<link href="../../../resources/metisMenu/metisMenu.css" rel="stylesheet"
+	media="screen" th:href="@{/resources/metisMenu/metisMenu.css}" />
+<link href="../../../resources/animate.css/animate.css" rel="stylesheet"
+	media="screen" th:href="@{/resources/animate.css/animate.css}" />
+<link href="../../../resources/bootstrap/css/bootstrap.css"
+	rel="stylesheet" media="screen"
+	th:href="@{/resources/bootstrap/css/bootstrap.css}" />
+<link rel="stylesheet" media="screen"
+	th:href="@{/resources/bootstrap/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css}" />
+
+<link rel="stylesheet" media="screen"
+	th:href="@{/resources/datatables.net-bs/css/dataTables.bootstrap.min.css}" />
+
+<!-- App styles -->
+<link
+	href="../../../resources/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css"
+	rel="stylesheet" media="screen"
+	th:href="@{/resources/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css}" />
+<link href="../../../resources/fonts/pe-icon-7-stroke/css/helper.css"
+	rel="stylesheet" media="screen"
+	th:href="@{/resources/fonts/pe-icon-7-stroke/css/helper.css}" />
+<link href="../../../resources/style/style.css" rel="stylesheet"
+	media="screen" th:href="@{/resources/style/style.css}" />
+
+</head>
+<body class="fixed-navbar fixed-sidebar">
+
+	<!-- Simple splash screen-->
+	<div class="splash">
+		<div class="color-line"></div>
+		<div class="splash-title">
+			<h1>SGPAT - Systeme de Gestion de Prac Auto et Taxi</h1>
+			<p>Merci de patienter, traitement en cours....</p>
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</div>
+	</div>
+	<!--[if lt IE 7]>
+<p class="alert alert-danger">You are using an <strong>outdated</strong>
+ browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+	<!-- Header -->
+	<div th:replace="fragments/header :: header">&nbsp;</div>
+
+	<!-- Navigation -->
+	<aside id="menu">
+		<div th:replace="fragments/navigation :: navigation">&nbsp;</div>
+	</aside>
+
+	<!-- Main Wrapper -->
+	<div id="wrapper">
+
+		<div class="normalheader transition animated fadeIn">
+			<div class="hpanel">
+				<div class="panel-body">
+					<a class="small-header-action" href=""> <span
+						class="clip-header"> <i class="fa fa-arrow-up"></i>
+					</span>
+					</a>
+
+					<div id="hbreadcrumb" class="pull-right m-t-lg">
+						<ol class="hbreadcrumb breadcrumb">
+							<li><a href="index.html">Tableau de board</a></li>
+							<li><span>Chauffeur</span></li>
+							<li class="active"><span>Profile </span></li>
+						</ol>
+					</div>
+					<h2 class="font-light m-b-xs">Profile</h2>
+					<small>details profile</small>
+				</div>
+			</div>
+		</div>
+
+		<div class="content animate-panel">
+			<div class="row">
+				<div class="col-lg-4">
+					<div class="hpanel hgreen">
+						<div class="panel-body">
+							<div class="pull-right text-right">
+								<div class="btn-group">
+									<i class="fa fa-facebook btn btn-default btn-xs"></i> <i
+										class="fa fa-twitter btn btn-default btn-xs"></i> <i
+										class="fa fa-linkedin btn btn-default btn-xs"></i>
+								</div>
+							</div>
+							<img th:src="@{/resources/images/avatar.png}"
+								class="img-circle m-b m-t-md" alt="logo">
+							<h3>
+								<a href=""><span
+									th:text="${chauffeur.nom + ' ' + chauffeur.prenom}"></span></a>
+							</h3>
+							<div class="text-muted font-bold m-b-xs">
+								<span th:text="${'Créer le : ' + chauffeur.dateCreation}"></span>
+							</div>
+						</div>
+						<div class="panel-body">
+							<dl>
+								<dt>Date Naissance</dt>
+								<dd>
+									<span th:text="${chauffeur.dateNaissance}"></span>
+								</dd>
+								<dt>email</dt>
+								<dd>
+									<span th:text="${chauffeur.lieuNaissance}"></span>
+								</dd>
+								<dt>Téléphone</dt>
+								<dd>
+									<span th:text="${chauffeur.telephone}"></span>
+								</dd>
+								<dt>Adresse</dt>
+								<dd>
+									<span th:text="${chauffeur.adresse}"></span>
+								</dd>
+								<dt>Sexe</dt>
+								<dd>
+									<span th:text="${chauffeur.sexe}"></span>
+								</dd>
+								<dt>Caution</dt>
+								<dd>
+									<span th:text="${chauffeur.caution}"></span>
+								</dd>
+								<dt>Etat civil</dt>
+								<dd>
+									<span th:text="${chauffeur.etatCivil}"></span>
+								</dd>
+								<dt>Etude</dt>
+								<dd>
+									<span th:text="${chauffeur.niveauEtude}"></span>
+								</dd>
+								<dt>Eexperience</dt>
+								<dd>
+									<span th:text="${chauffeur.experience}"></span>
+								</dd>
+								<dt>En cas D'urgence</dt>
+								<dd>
+									<span th:text="${chauffeur.numeroUrgence}"></span>
+								</dd>
+							</dl>
+						</div>
+
+					</div>
+				</div>
+				<div class="col-lg-8">
+					<div class="hpanel">
+						<div class="hpanel">
+
+							<ul class="nav nav-tabs">
+								<li class="active"><a data-toggle="tab" href="#tab-1">Vehicile</a></li>
+								<li><a data-toggle="tab" href="#tab-2">Recettes</a></li>
+								<li><a data-toggle="tab" href="#tab-3">Salaire</a></li>
+							</ul>
+							<div class="tab-content">
+								<div id="tab-1" class="tab-pane active">
+									<div class="panel-body">
+										<strong>Liste véhicule</strong>
+
+										<div class="table-responsive">
+											<table class="table table-striped">
+												<thead>
+													<tr>
+														<th>Code</th>
+														<th>Classe</th>
+														<th>Matricule</th>
+														<th>Serie</th>
+														<th>Couleur</th>
+														<th>Energie</th>
+														<th>Statut</th>
+														<th>Poprio</th>
+														<th>Action</th>
+													</tr>
+												</thead>
+												<tbody>
+													<th:block th:if="${vehicule != null}">
+													<tr>
+														<td><a
+															th:href="@{'/vehicule/profile?codeVehicule=' + ${vehicule.code}}"><span
+																class="label label-primary" th:text=${vehicule.code}></span></a></td>
+														<td><div th:text=${vehicule.classe}></div></td>
+														<td><div th:text=${vehicule.immatriculation}></div></td>
+														<td class="text-center"><div class="label label-info"
+																th:text=${vehicule.numeroSerie}></div></td>
+														<td class="text-center">
+															<div th:text=${vehicule.couleur}></div>
+														</td>
+														<td><span class="label label-info"
+															th:text=${vehicule.energie}></span></td>
+														<td><span class="label label-success"
+															th:text=${vehicule.etat}>EL</span></td>
+														<td><span class="label label-success"
+															th:text=${vehicule.proprio.designation}>TAXI-PLUS</span></td>
+														<td class="text-right"><a
+															class="btn btn-default btn-xs">Modifier</a> <a
+															class="btn btn-default btn-xs">Supprimer</a></td>
+													</tr>
+													</th:block>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+
+								<div id="tab-2" class="tab-pane">
+									<div class="panel-body">
+										<strong>Liste Recettes</strong>
+
+										<div class="table-responsive">
+											<table class="table table-striped">
+												<thead>
+													<tr>
+														<th>Date</th>
+														<th>chauffeur</th>
+														<th>Montant</th>
+														<th>Payer</th>
+														<th>Statut</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="recette : ${recettes}">
+														<td><div class="label label-primary"
+																th:text=${recette.date}></div></td>
+														<td><div
+																th:text="${recette.chauffeur.nom +' '+ recette.chauffeur.prenom }">
+															</div></td>
+														<td><div th:text=${recette.montantDus}></div></td>
+														<td><div th:text=${recette.montantPayer}></div></td>
+														<td><div th:text=${recette.statut}></div></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+
+								<div id="tab-3" class="tab-pane">
+									<div class="panel-body">
+										<strong>Salaires</strong>
+
+										<div class="table-responsive">
+											<table class="table table-striped">
+												<thead>
+													<tr>
+														<th>Date</th>
+														<th>Montant Net</th>
+														<th>Avance</th>
+														<th>Mode Paiement</th>
+														<th>Action</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="salaire : ${salaires}">
+														<td><span class="label label-primary"
+															th:text="${salaire.date}">CH0001</span></td>
+														<td><span th:text="${salaire.montant }">CH0001</span></td>
+														<td><span th:text="${salaire.avance }">CH0001</span></td>
+														<td><span class="label label-success"
+															th:text="${salaire.modePaiement}">cheque</span></td>
+
+														<td class="text-right">
+															<button class="btn btn-default btn-xs">Modifier</button>
+															<button class="btn btn-default btn-xs">Supprimer</button>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Footer-->
+		<footer class="footer">
+			<div th:replace="fragments/footer :: footer">&copy; 2013 The
+				Static Templates</div>
+		</footer>
+
+	</div>
+
+	<!-- Vendor scripts -->
+	<script th:src="@{/resources/jquery/jquery.min.js}"></script>
+	<script th:src="@{/resources/jquery-ui/jquery-ui.min.js}"></script>
+	<script th:src="@{/resources/slimScroll/jquery.slimscroll.min.js}"></script>
+	<script th:src="@{/resources/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/resources/metisMenu/metisMenu.min.js}"></script>
+	<script th:src="@{/resources/iCheck/icheck.min.js}"></script>
+	<script th:src="@{/resources/sparkline/index.js}"></script>
+
+	<!-- DataTables -->
+	<script
+		th:src="@{/resources/datatables/media/js/jquery.dataTables.min.js}"></script>
+	<script
+		th:src="@{/resources/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
+
+	<!-- DataTables buttons scripts -->
+	<script th:src="@{/resources/pdfmake/build/pdfmake.min.js}"></script>
+	<script th:src="@{/resources/pdfmake/build/vfs_fonts.js}"></script>
+	<script
+		th:src="@{/resources/datatables.net-buttons/js/buttons.html5.min.js}"></script>
+	<script
+		th:src="@{/resources/datatables.net-buttons/js/buttons.print.min.js}"></script>
+	<script
+		th:src="@{/resources/datatables.net-buttons/js/dataTables.buttons.min.js}"></script>
+	<script
+		th:src="@{/resources/datatables.net-buttons-bs/js/buttons.bootstrap.min.js}"></script>
+
+	<!-- App scripts -->
+	<script th:src="@{/resources/js/homer.js}"></script>
+
+	<script>
+		$(function() {
+
+			// Initialize Example 1
+			$('#example1')
+					.dataTable(
+							{
+								"ajax" : 'api/datatables.json',
+								dom : "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp",
+								"lengthMenu" : [ [ 10, 25, 50, -1 ],
+										[ 10, 25, 50, "All" ] ],
+								buttons : [ {
+									extend : 'copy',
+									className : 'btn-sm'
+								}, {
+									extend : 'csv',
+									title : 'ExampleFile',
+									className : 'btn-sm'
+								}, {
+									extend : 'pdf',
+									title : 'ExampleFile',
+									className : 'btn-sm'
+								}, {
+									extend : 'print',
+									className : 'btn-sm'
+								} ]
+							});
+
+			// Initialize Example 2
+			$('#example2').dataTable();
+
+		});
+	</script>
+
+</body>
+</html>

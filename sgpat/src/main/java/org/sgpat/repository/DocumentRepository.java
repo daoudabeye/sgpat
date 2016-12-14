@@ -11,4 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface DocumentRepository  extends CrudRepository<Document, Integer> {
 
 	List<Document> findByClient(Client client);
+	
+	List<Document> findByVehiculeCode(String codeVehicule);
 }

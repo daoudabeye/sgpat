@@ -18,6 +18,8 @@ public interface RecetteRepository extends CrudRepository<Recette, Integer> {
 	
 	List<Recette> findByStatut(String statut);
 	
+	List<Recette> findByChauffeurCodeChauffeur(String codeChauffeur);
+	
 	@Query(value = "SELECT r FROM Recette r where DATE(:date)=r.date order by r.id DESC")
 	List<Recette> findByDate(@Param("date") Date date);
 	

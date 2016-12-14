@@ -88,7 +88,7 @@
 							<div th:fragment="form">
 								<div class="row">
 									<form th:method="post" class="form-horizontal"
-										th:action="@{'/conducteur/nouveau?controller=self&update=' + ${update}}"
+										th:action="@{'/conducteur/nouveau?controller=self&update=' + ${update} + '&codeChauffeur=' + ${codeChauffeur}}"
 										th:object="${conducteurForm}">
 										<th:block th:if="${#fields.hasErrors('${conducteurForm.*}')}">
 											<div
