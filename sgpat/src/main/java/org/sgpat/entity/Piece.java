@@ -46,6 +46,20 @@ public class Piece implements Serializable {
 	public Piece() {
 	}
 
+	public Piece(String designation, String etat, String marque, String prix, String reference,
+			String statut) {
+		super();
+		this.dateAjout = new Date();
+		this.designation = designation;
+		this.etat = etat;
+		this.marque = marque;
+		this.prix = prix;
+		this.reference = reference;
+		this.statut = statut;
+	}
+
+
+
 	public int getId() {
 		return this.id;
 	}

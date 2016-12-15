@@ -1,13 +1,15 @@
 package org.sgpat.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.sgpat.entity.Chauffeur;
-import org.sgpat.entity.Salaire;
+import org.sgpat.entity.Operation;
 import org.sgpat.entity.Vehicule;
 import org.sgpat.form.ConducteurForm;
 import org.sgpat.service.ChauffeurService;
-import org.sgpat.service.RecetteService;
+import org.sgpat.service.OperationService;
 import org.sgpat.service.VehiculeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,19 +29,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class ConducteurController {
 
 	private static final String CHAUFFEUR_VIEW = "conducteur/nouveau";
-	private static final String SALAIRE_VIEW = "conducteur/salaire";
 	private static final String LISTE_VIEW = "conducteur/liste";
 	private static final String PROFILE_VIEW = "conducteur/profile_chauffeur";
+	private static final String RECETTE = "vehicule/recettes";
 
 	@Autowired
 	ChauffeurService chauffeurService;
 
 	@Autowired
 	VehiculeService vehiculeService;
-	
-	@Autowired
-	RecetteService recetteService;
 
+	@Autowired
+	OperationService operationService;
+	
 	@RequestMapping(value = "nouveau", params = "message", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	@Secured({"ROLE_AGENT", "ROLE_ADMIN"})
@@ -61,9 +63,9 @@ public class ConducteurController {
 	public String profile(Model model, @RequestParam("codeChauffeur") String codeChauffeur){
 		Chauffeur chauffeur = chauffeurService.findByCode(codeChauffeur);
 		model.addAttribute("chauffeur", chauffeur);
-		model.addAttribute("recettes", recetteService.findByChauffeur(chauffeur.getCodeChauffeur()));
+		model.addAttribute("recettes", operationService.findByCode(chauffeur.getCodeChauffeur(), "RECETTE"));
 		model.addAttribute("vehicule", vehiculeService.findVehicule(chauffeur));
-		model.addAttribute("salaires", chauffeurService.findSalaire(codeChauffeur));
+		model.addAttribute("salaires", "chauffeurService.findSalaire(codeChauffeur)");
 		return PROFILE_VIEW;
 	}
 	
@@ -158,43 +160,30 @@ public class ConducteurController {
 
 		return "redirect:/conducteur/nouveau?message=success";
 	}
-
-	@RequestMapping(value = "salaire", params ={ "codeChauffeur", "montant", "date" , "methode"}, method = RequestMethod.GET)
+	
+	@RequestMapping(value = "recettes", params = { "date" , "codeChauffeur"}, method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	@Secured({"ROLE_AGENT", "ROLE_ADMIN"})
-	public String salaire(Model model, @RequestParam("codeChauffeur") String codeChauffeur,
-			@RequestParam("montant") String montant, @RequestParam("date") String date, @RequestParam("methode") String methode){
-		
-		if(methode.equals("post")){
-			try {
-				Salaire s = chauffeurService.saveSalaire(Double.valueOf(montant), codeChauffeur, date);
-				if(s == null) model.addAttribute("errorMessage", "Erreur lors de l'enregistrement");
-			} catch (Exception e) {
-				// TODO: handle exception
-				model.addAttribute("errorMessage", "Erreur lors de l'enregistrement");
-			}
-
-		}
-
-		if(methode.equals("get")){
-			model.addAttribute("salaires", chauffeurService.findSalaire(codeChauffeur));
-
-		}
-		if(methode.equals("globale")){
-			model.addAttribute("salires", chauffeurService.findAllSalaire());
-		}
+	public String recette(Model model, @RequestParam("date") String date,
+			@RequestParam("codeChauffeur") String codeChauffeur){
+		//SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
 		Chauffeur chauffeur = chauffeurService.findByCode(codeChauffeur);
-		if(chauffeur != null){
-			model.addAttribute("codeChauffeur", chauffeur.getCodeChauffeur());
-			model.addAttribute("nom", chauffeur.getPrenom()+" "+chauffeur.getNom());
-			model.addAttribute("telephone", chauffeur.getTelephone());
-			model.addAttribute("salaire", chauffeur.getSalaire());
-			model.addAttribute("caution", chauffeur.getCaution());
+		model.addAttribute("chauffeur", chauffeur);
+		if(chauffeur == null) return "redirect:/conducteur/liste";
+		
+		List<Operation> operations = operationService.findByCode(codeChauffeur, "RECETTE");
+		Double totalPayer = 0.0;
+		Double totalImpayer = 0.0;
+		for(Operation o : operations){
+			totalPayer += o.getMontantPayer();
+			totalImpayer += (o.getMontantDus() - o.getMontantPayer());
 		}
-
-		model.addAttribute("montant", montant);
-		model.addAttribute("date", date);
-		return SALAIRE_VIEW;
+		
+		model.addAttribute("totalPayer", totalPayer);
+		model.addAttribute("totalImpayer", totalImpayer);
+		model.addAttribute("chauffeurs", chauffeurService.getAll());
+				
+		return RECETTE;
 	}
 }

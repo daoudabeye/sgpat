@@ -12,7 +12,6 @@ import org.sgpat.form.ClientForm;
 import org.sgpat.form.DocumentForm;
 import org.sgpat.repository.ClientRepository;
 import org.sgpat.repository.DocumentRepository;
-import org.sgpat.repository.StatutRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -25,9 +24,6 @@ public class ClientService {
 
 	@Autowired
 	AccountService accountService;
-	
-	@Autowired
-	StatutRepository statutRepository;
 	
 	@Autowired
 	DocumentRepository documentRepository;

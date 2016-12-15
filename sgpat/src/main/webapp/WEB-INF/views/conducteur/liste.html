@@ -116,9 +116,9 @@
 										<td><span class="label label-success"
 											th:text="${chauffeur.dateDebutActivite}">96347412</span></td>
 										<td class="text-right"><a class="btn btn-default btn-xs"
-											th:href="@{'/conducteur/salaire?methode=get&montant=0&date=date&codeChauffeur='+ ${chauffeur.codeChauffeur}}">Salaire</a>
+											th:href="@{'/operation/salaire?codeChauffeur='+ ${chauffeur.codeChauffeur}}">Salaire</a>
 											<a class="btn btn-default btn-xs"
-											th:href="@{'/vehicule/recettes?date=ALL&fragment=false&codeChauffeur='+ ${chauffeur.codeChauffeur}}">Recettes</a>
+											th:href="@{'/conducteur/recettes?date=ALL&codeChauffeur='+ ${chauffeur.codeChauffeur}}">Recettes</a>
 											<a class="btn btn-default btn-xs"
 											th:href="@{'/conducteur/modifier?codeChauffeur='+ ${chauffeur.codeChauffeur}}">Modifier</a>
 											<a class="btn btn-default btn-xs"

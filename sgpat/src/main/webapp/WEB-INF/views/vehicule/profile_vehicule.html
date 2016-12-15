@@ -284,7 +284,6 @@
 											<table class="table table-striped">
 												<thead>
 													<tr>
-														<th>#</th>
 														<th>Désignation</th>
 														<th>Cout</th>
 														<th>Date Révision</th>
@@ -295,7 +294,6 @@
 												</thead>
 												<tbody>
 													<tr th:each="maintenance : ${maintenances}">
-														<td><span th:text="${maintenance.codeRevision}"></span></td>
 														<td><span th:text="${maintenance.designation}"></span></td>
 														<td><span th:text="${maintenance.dateRevision}"></span></td>
 														<td><span th:text="${maintenance.dateProchainRevision}"></span></td>

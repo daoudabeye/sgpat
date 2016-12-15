@@ -81,10 +81,6 @@ public class Chauffeur implements Serializable {
 	@OneToMany(mappedBy="chauffeur")
 	private List<Vehicule> vehicules;
 
-	//bi-directional many-to-one association to Recette
-	@OneToMany(mappedBy="vehicule")
-	private List<Recette> recettes;
-
 	public Chauffeur() {
 		this.dateCreation = new Date();
 	}
@@ -234,28 +230,6 @@ public class Chauffeur implements Serializable {
 
 		return vehicule;
 	}
-	
-	public List<Recette> getRecettes() {
-		return this.recettes;
-	}
-
-	public void setRecettes(List<Recette> recettes) {
-		this.recettes = recettes;
-	}
-	
-	public Recette addRecette(Recette recette) {
-		getRecettes().add(recette);
-		recette.setChauffeur(this);
-
-		return recette;
-	}
-
-	public Recette removeRecette(Recette recette) {
-		getRecettes().remove(recette);
-		recette.setVehicule(null);
-
-		return recette;
-	}
 
 	public Double getSalaire() {
 		return salaire;
@@ -343,7 +317,4 @@ public class Chauffeur implements Serializable {
 	public void setNationnalite(String nationnalite) {
 		this.nationnalite = nationnalite;
 	}
-
-	
-
 }

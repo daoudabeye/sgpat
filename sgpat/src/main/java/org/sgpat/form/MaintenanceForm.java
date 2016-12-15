@@ -26,16 +26,28 @@ public class MaintenanceForm {
 	
 	@NotBlank(message = MaintenanceForm.NOT_BLANK_MESSAGE)
 	private String dateProchain;
+	
+	@NotBlank(message = MaintenanceForm.NOT_BLANK_MESSAGE)
+	private String dateEntre;
+	
+	@NotBlank(message = MaintenanceForm.NOT_BLANK_MESSAGE)
+	private String dateSortie;
 
 	public Maintenance getMaintenance(){
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Date dateProchainRevision = new Date();
+		Date dateE = new Date();
+		Date dateS = new Date();
 		try {
 			dateProchainRevision = sdf.parse(dateProchain);
+			dateE = sdf.parse(dateEntre);
+			dateS = sdf.parse(dateSortie);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 		Maintenance m = new Maintenance(cout, dateProchainRevision, designation, statut, natureOperation);
+		m.setDateEntre(dateE);
+		m.setDateSortie(dateS);
 		return m;
 	}
 	public String getVehicule() {
@@ -84,6 +96,18 @@ public class MaintenanceForm {
 
 	public void setDateProchain(String dateProchain) {
 		this.dateProchain = dateProchain;
+	}
+	public String getDateEntre() {
+		return dateEntre;
+	}
+	public void setDateEntre(String dateEntre) {
+		this.dateEntre = dateEntre;
+	}
+	public String getDateSortie() {
+		return dateSortie;
+	}
+	public void setDateSortie(String dateSortie) {
+		this.dateSortie = dateSortie;
 	}
 	
 }

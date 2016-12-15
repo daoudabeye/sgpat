@@ -170,8 +170,6 @@
 
 							<ul class="nav nav-tabs">
 								<li class="active"><a data-toggle="tab" href="#tab-1">Vehicile</a></li>
-								<li><a data-toggle="tab" href="#tab-2">Recettes</a></li>
-								<li><a data-toggle="tab" href="#tab-3">Salaire</a></li>
 							</ul>
 							<div class="tab-content">
 								<div id="tab-1" class="tab-pane active">
@@ -222,74 +220,6 @@
 										</div>
 									</div>
 								</div>
-
-								<div id="tab-2" class="tab-pane">
-									<div class="panel-body">
-										<strong>Liste Recettes</strong>
-
-										<div class="table-responsive">
-											<table class="table table-striped">
-												<thead>
-													<tr>
-														<th>Date</th>
-														<th>chauffeur</th>
-														<th>Montant</th>
-														<th>Payer</th>
-														<th>Statut</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr th:each="recette : ${recettes}">
-														<td><div class="label label-primary"
-																th:text=${recette.date}></div></td>
-														<td><div
-																th:text="${recette.chauffeur.nom +' '+ recette.chauffeur.prenom }">
-															</div></td>
-														<td><div th:text=${recette.montantDus}></div></td>
-														<td><div th:text=${recette.montantPayer}></div></td>
-														<td><div th:text=${recette.statut}></div></td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-									</div>
-								</div>
-
-								<div id="tab-3" class="tab-pane">
-									<div class="panel-body">
-										<strong>Salaires</strong>
-
-										<div class="table-responsive">
-											<table class="table table-striped">
-												<thead>
-													<tr>
-														<th>Date</th>
-														<th>Montant Net</th>
-														<th>Avance</th>
-														<th>Mode Paiement</th>
-														<th>Action</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr th:each="salaire : ${salaires}">
-														<td><span class="label label-primary"
-															th:text="${salaire.date}">CH0001</span></td>
-														<td><span th:text="${salaire.montant }">CH0001</span></td>
-														<td><span th:text="${salaire.avance }">CH0001</span></td>
-														<td><span class="label label-success"
-															th:text="${salaire.modePaiement}">cheque</span></td>
-
-														<td class="text-right">
-															<button class="btn btn-default btn-xs">Modifier</button>
-															<button class="btn btn-default btn-xs">Supprimer</button>
-														</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-									</div>
-								</div>
-
 							</div>
 						</div>
 					</div>

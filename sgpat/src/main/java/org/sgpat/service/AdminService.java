@@ -46,7 +46,7 @@ public class AdminService {
 	}
 	
 	public List<Operation> findByProprio(String codeProprio){
-		return operationRepository.findByCodeProprioOrderByIdDesc(codeProprio);
+		return operationRepository.findByBeneficiaire(codeProprio);
 	}
 	
 }

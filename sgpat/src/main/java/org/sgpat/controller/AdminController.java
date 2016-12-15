@@ -29,7 +29,6 @@ public class AdminController {
 
 	private final static String CREER_COMPTE_VIEW = "administration/creationComptes";
 	private final static String LISTE_PROFILE = "administration/listeProfiles";
-	private final static String OPERATION = "caisse/operation";
 	private final static String PARTENAIRES = "administration/partenaires";
 	private final static String PROFILE_PARTENAIRES = "administration/profile_partenaire";
 	private static final String PROPRIO_VIEW = "administration/partenaires";
@@ -52,13 +51,6 @@ public class AdminController {
 	public String creer(Model model) {
 		model.addAttribute(new AgentForm());
 		return CREER_COMPTE_VIEW;
-	}
-	
-	@RequestMapping(value = "operation", method = RequestMethod.GET)
-	@ResponseStatus(value = HttpStatus.OK)
-	@Secured({"ROLE_AGENT", "ROLE_ADMIN"})
-	public String operation(Model model) {
-		return OPERATION;
 	}
 	
 	@RequestMapping(value = "profile", method = RequestMethod.GET)
@@ -131,4 +123,6 @@ public class AdminController {
 		model.addAttribute("proprios", proprioService.findAll());
 		return PROPRIO_VIEW;
 	}
+	
+	
 }

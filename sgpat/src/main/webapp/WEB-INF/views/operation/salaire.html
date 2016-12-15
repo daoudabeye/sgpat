@@ -78,101 +78,86 @@
 	<div id="wrapper">
 
 		<div class="content animate-panel">
+			<th:block th:if="${errorMessage != null}">
+				<div
+					th:replace="fragments/alert :: alert (type='danger', message=${errorMessage})">Alert</div>
+			</th:block>
 
+			<th:block th:if="${success != null}">
+				<div
+					th:replace="fragments/alert :: alert (type='success', message=${success})">Alert</div>
+			</th:block>
 			<div class="row">
 				<div class="col-lg-6">
 					<div class="hpanel">
 						<div class="panel-body">
 							<div th:fragment="form">
-								<div class="row">
-									<div th:fragment="in-form">
-										<div class="col-md-8">
-											<fieldset>
-												<legend>
-													<i class="pe-7s-note2"></i><span class="font-icon-name">
-														ENCAISSEMENT</span>
-												</legend>
-												<p>Date comptable</p>
-												<div class="form-group">
-													<div class="input-group date" id="montant">
-														<input type="text" class="form-control" id="montantPayer"
-															th:value="${totalPayer}">
-													</div>
-												</div>
-												<p>Montant</p>
-												<div class="form-group">
-													<div class="input-group date" id="montant">
-														<input type="text" class="form-control" id="montantPayer"
-															th:value="${totalPayer}">
-													</div>
-												</div>
-												<p>Motif</p>
-												<div class="form-group">
-													<div class="input-group date" id="montant">
-														<textarea class="form-control" id="montantPayer"></textarea>
-													</div>
-												</div>
-												<div class="form-group">
-													<div class="input-group date" id="datetimepicker1">
-														<a class="btn btn-info" onclick="makePaiement()">ENCAISSEMENT</a>
-													</div>
-												</div>
-											</fieldset>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+								<form th:method="post" class="form-horizontal"
+									th:action="@{/operation/confirmer?type=SALAIRE&vue=operation/salaire}"
+									th:object="${operationForm}">
+									<div class="row">
+										<div th:fragment="in-form">
 
-				<div class="col-lg-6">
-					<div class="hpanel">
-						<div class="panel-body">
-							<div th:fragment="form">
-								<div class="row">
-									<div th:fragment="in-form">
-										<div class="col-md-12">
-											<fieldset>
-												<legend>
-													<i class="pe-7s-note2"></i><span class="font-icon-name">
-														DECAISSEMENT</span>
-												</legend>
-												<p>Date comptable</p>
-												<div class="form-group">
-													<div class="input-group date" id="montant">
-														<input type="text" class="form-control" id="montantPayer"
-															th:value="${totalPayer}">
+											<div class="col-md-6">
+												<fieldset>
+													<legend>
+														<i class="pe-7s-note2"></i><span class="font-icon-name">
+															CHAUFFEUR</span>
+													</legend>
+													<div class="m-t-md">
+														<h5>Chauffeur</h5>
+														<select
+															th:classappend="${#fields.hasErrors('beneficiaire')}? 'error'"
+															class="js-source-states" style="width: 100%"
+															th:field="*{beneficiaire}">
+															<option value="">Choisir</option>
+															<option th:each="chauffeur : ${chauffeurs}"
+																th:text="${chauffeur.nom+' '+ chauffeur.prenom+' ('+chauffeur.codeChauffeur+')'}"
+																th:value="${chauffeur.codeChauffeur}">Alaska</option>
+														</select>
 													</div>
-												</div>
-												<p>Montant</p>
-												<div class="form-group">
-													<div class="input-group date" id="montant">
-														<input type="text" class="form-control" id="montantPayer"
-															th:value="${totalPayer}">
+												</fieldset>
+											</div>
+											<div class="col-md-6">
+												<fieldset>
+													<legend>
+														<i class="pe-7s-note2"></i><span class="font-icon-name">
+															OPERATION</span>
+													</legend>
+													<p>Date comptable</p>
+													<div class="form-group">
+														<div class="input-group date" id="datetPaiement">
+															<span class="input-group-addon"> <span
+																class="fa fa-calendar"></span>
+															</span> <input id="datapicker1" type="text"
+																th:field="*{dateComptable}" placeholder="jj/MM/AAAA"
+																class="form-control">
+														</div>
 													</div>
-												</div>
-												<p>Bénéficiaire</p>
-												<div class="form-group">
-													<div class="input-group date" id="montant">
-														<input type="text" class="form-control" id="montantPayer">
+													<p>Montant</p>
+													<div class="form-group">
+														<div class="input-group date" id="montant">
+															<input type="text" class="form-control" id="montant"
+																th:field="*{montant}">
+														</div>
 													</div>
-												</div>
-												<p>Motif</p>
-												<div class="form-group">
-													<div class="input-group date" id="montant">
-														<textarea class="form-control" id="montantPayer"></textarea>
+													<p>Motif paiement</p>
+													<div class="form-group">
+														<div class="input-group date">
+															<input type="text" class="form-control" id="motif"
+																th:field="*{motif}">
+														</div>
 													</div>
-												</div>
-												<div class="form-group">
-													<div class="input-group date" id="datetimepicker1">
-														<a class="btn btn-info" onclick="makePaiement()">DECAISSEMENT</a>
+													<div class="form-group">
+														<div class="input-group date" id="datetimepicker1">
+															<button class="btn btn-info" type="submit">PAIEMENT</button>
+														</div>
 													</div>
-												</div>
-											</fieldset>
+												</fieldset>
+											</div>
 										</div>
 									</div>
-								</div>
+								</form>
 							</div>
 						</div>
 					</div>
@@ -275,7 +260,7 @@
 			$('#datapicker3').datepicker();
 			$('#datepicker .input-group.date').datepicker({});
 			$('#datepicker .input-daterange').datepicker({});
-			
+
 			$(".js-source-states").select2();
 			$(".js-source-states-2").select2();
 
@@ -304,24 +289,24 @@
 				cache : false
 			});
 		}
-		
+
 		function retrieveChauffeur() {
 			var url = '/sgpat/conducteur/retrieve?vue=vehicule/recettes&fragment=false';
 
-				url = url + '&codeChauffeur=' + $('#codeChauffeur').val();
-				
+			url = url + '&codeChauffeur=' + $('#codeChauffeur').val();
+
 			//$("#fragment").load(url);
 			//loadUrl(url);
 			window.location = url;
 		}
-		
+
 		function makePaiement() {
 			var url = '/sgpat/vehicule/payer?';
 
-				url = url + '&codeChauffeur=' + $('#codeChauffeur').val();
-				url = url + '&date=' + $('#datapicker2').val();
-				url = url + '&montant=' + $('#montantPayer').val();
-				
+			url = url + '&codeChauffeur=' + $('#codeChauffeur').val();
+			url = url + '&date=' + $('#datapicker2').val();
+			url = url + '&montant=' + $('#montantPayer').val();
+
 			//$("#fragment").load(url);
 			//loadUrl(url);
 			window.location = url;

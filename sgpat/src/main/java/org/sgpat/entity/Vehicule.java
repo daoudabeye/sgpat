@@ -87,10 +87,6 @@ public class Vehicule implements Serializable {
 	@OneToMany(mappedBy="vehicule")
 	private List<Reservation> reservations;
 
-	//bi-directional many-to-one association to StatutVehicule
-	@OneToMany(mappedBy="vehicule")
-	private List<StatutVehicule> statutVehicules;
-
 	//bi-directional many-to-one association to Category
 	@ManyToOne
 	private Categorie categorie;
@@ -106,10 +102,6 @@ public class Vehicule implements Serializable {
 	//bi-directional many-to-one association to Proprio
 	@ManyToOne
 	private Proprio proprio;
-
-	//bi-directional many-to-one association to Recette
-	@OneToMany(mappedBy="vehicule")
-	private List<Recette> recettes;
 
 	public Vehicule() {
 		this.setDateCreation(new Date());
@@ -384,28 +376,7 @@ public class Vehicule implements Serializable {
 		return reservation;
 	}
 
-	public List<StatutVehicule> getStatutVehicules() {
-		return this.statutVehicules;
-	}
-
-	public void setStatutVehicules(List<StatutVehicule> statutVehicules) {
-		this.statutVehicules = statutVehicules;
-	}
-
-	public StatutVehicule addStatutVehicule(StatutVehicule statutVehicule) {
-		getStatutVehicules().add(statutVehicule);
-		statutVehicule.setVehicule(this);
-
-		return statutVehicule;
-	}
-
-	public StatutVehicule removeStatutVehicule(StatutVehicule statutVehicule) {
-		getStatutVehicules().remove(statutVehicule);
-		statutVehicule.setVehicule(null);
-
-		return statutVehicule;
-	}
-
+	
 	public Categorie getCategorie() {
 		return this.categorie;
 	}
@@ -452,28 +423,6 @@ public class Vehicule implements Serializable {
 
 	public void setEtat(String etat) {
 		this.etat = etat;
-	}
-	
-	public List<Recette> getRecettes() {
-		return this.recettes;
-	}
-
-	public void setRecettes(List<Recette> recettes) {
-		this.recettes = recettes;
-	}
-	
-	public Recette addRecette(Recette recette) {
-		getRecettes().add(recette);
-		recette.setVehicule(this);
-
-		return recette;
-	}
-
-	public Recette removeRecette(Recette recette) {
-		getRecettes().remove(recette);
-		recette.setVehicule(null);
-
-		return recette;
 	}
 
 }

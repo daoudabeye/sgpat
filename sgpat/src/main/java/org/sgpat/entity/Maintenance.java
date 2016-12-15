@@ -19,9 +19,6 @@ public class Maintenance implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name="code_revision")
-	private String codeRevision;
-
 	@Column(name="cout_revision")
 	private double coutRevision;
 
@@ -32,6 +29,14 @@ public class Maintenance implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="date_revision")
 	private Date dateRevision;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="date_sortie")
+	private Date dateSortie;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="date_entre")
+	private Date dateEntre;
 
 	private String designation;
 
@@ -64,15 +69,7 @@ public class Maintenance implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	public String getCodeRevision() {
-		return this.codeRevision;
-	}
-
-	public void setCodeRevision(String codeRevision) {
-		this.codeRevision = codeRevision;
-	}
-
+	
 	public double getCoutRevision() {
 		return this.coutRevision;
 	}
@@ -127,6 +124,22 @@ public class Maintenance implements Serializable {
 
 	public void setVehicule(Vehicule vehicule) {
 		this.vehicule = vehicule;
+	}
+
+	public Date getDateSortie() {
+		return dateSortie;
+	}
+
+	public void setDateSortie(Date dateSortie) {
+		this.dateSortie = dateSortie;
+	}
+
+	public Date getDateEntre() {
+		return dateEntre;
+	}
+
+	public void setDateEntre(Date dateEntre) {
+		this.dateEntre = dateEntre;
 	}
 
 }

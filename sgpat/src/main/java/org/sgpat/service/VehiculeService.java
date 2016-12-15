@@ -15,6 +15,7 @@ import org.sgpat.entity.Proprio;
 import org.sgpat.entity.Vehicule;
 import org.sgpat.form.MaintenanceForm;
 import org.sgpat.form.VehiculeForm;
+import org.sgpat.form.pieceForm;
 import org.sgpat.repository.DocumentRepository;
 import org.sgpat.repository.EmployeeRepository;
 import org.sgpat.repository.MaintenanceRepository;
@@ -100,6 +101,13 @@ public class VehiculeService {
 		return vehiculeRepository.findByProprio(proprio);
 	}
 	
+	public List<Piece> getAllPieces(){
+		return pieceRepository.getAll();
+	}
+	
+	public List<Piece> findPieceByVehicule(String codeVehicule){
+		return pieceRepository.findByVehiculeCode(codeVehicule);
+	}
 	@Transactional
 	public Vehicule create(VehiculeForm vehiculeForm) {
 		// TODO Auto-generated method stub
@@ -142,6 +150,42 @@ public class VehiculeService {
 		return vehicule;
 	}
 	
+	@Transactional
+	public Boolean modifier(String codeVehicule, VehiculeForm vehiculeForm){
+		Vehicule vehicule = vehiculeForm.createVehicule();
+		
+		
+		int update = vehiculeRepository.update(codeVehicule, vehicule.getImmatriculation(), vehicule.getMarque(), vehicule.getType(),
+				vehicule.getDateMiseEnService(), vehicule.getCouleur(), vehicule.getClasse(), vehicule.getPrixAchat(),
+				vehicule.getNumeroSerie(), vehicule.getKilometrageActuel(), vehicule.getNiveauCarburant(),
+				vehicule.getRoueDeSecours(), vehicule.getEnergie(), vehicule.getObservations(), vehicule.getNombreDePlace());
+		
+		Categorie categorie = categorieService.findByNom(vehiculeForm.getNomCategorie());
+		Assert.notNull(categorie, "Catégorie incorrect");
+
+		Proprio proprio = proprioService.findByCode(vehiculeForm.getProprio());
+		Assert.notNull(proprio, "Code Proprio incorrect");
+		
+		Vehicule v = this.findByCode(codeVehicule);
+		Assert.notNull(proprio, "Code Vehicule incorrect");
+		
+		if(vehiculeForm.getChauffeur() != null && !vehiculeForm.getChauffeur().isEmpty()){
+			Chauffeur ch = chauffeurService.findByCode(vehiculeForm.getChauffeur());
+			Assert.notNull(ch, "Code chauffeur incorrect");
+			vehicule.setChauffeur(ch);
+			update = vehiculeRepository.update(v.getId(), proprio.getId(), categorie.getId(), ch.getId());
+		}
+		
+		update = vehiculeRepository.update(v.getId(), proprio.getId(), categorie.getId());
+		
+		if(update > 0) 
+			return true;
+		else
+			return false;
+		
+	}
+	
+	@Transactional
 	public Maintenance maintenance(MaintenanceForm maintenanceForm){
 		Maintenance maintenance = maintenanceForm.getMaintenance();
 		
@@ -150,9 +194,34 @@ public class VehiculeService {
 		maintenance.setVehicule(vehicule);
 		maintenance = maintenanceRepository.save(maintenance);
 		return maintenance;
-		
 	}
 	
+	@Transactional
+	public Piece pieces(pieceForm pieceForm){
+		Piece piece = pieceForm.create();
+		
+		piece = pieceRepository.save(piece);
+		return piece;
+	}
+	
+	@Transactional
+	public Maintenance garage(MaintenanceForm maintenanceForm){
+		Maintenance maintenance = maintenanceForm.getMaintenance();
+		
+		Vehicule vehicule = this.findByCode(maintenanceForm.getVehicule());
+		
+		maintenance.setVehicule(vehicule);
+		maintenance = maintenanceRepository.save(maintenance);
+		
+		vehiculeRepository.updateEtat(vehicule.getId(), "G");
+		return maintenance;
+	}
+	
+	public void supprimer(String codeVehicule){
+		Vehicule v = this.findByCode(codeVehicule);
+		Assert.notNull(v, "Aucun resultat pour :"+codeVehicule);
+		vehiculeRepository.delete(v);
+	}
 	public Long nombreVehicule(){
 		return vehiculeRepository.nombreVehicule();
 	}
@@ -163,5 +232,13 @@ public class VehiculeService {
 	
 	public Long countByProprio(String codeProprio){
 		return vehiculeRepository.countProprio(codeProprio);
+	}
+
+	@Transactional
+	public void updateEtat(String codeVehicule, String etat) {
+		Vehicule v = findByCode(codeVehicule);
+		// TODO Auto-generated method stub
+		String e = etat.equals("actif") ?  "VD" : "VI";
+		vehiculeRepository.updateEtat(v.getId(), e);
 	}
 }

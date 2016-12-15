@@ -19,25 +19,90 @@ public class Operation implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 
-	private String code;
-
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column( name="date_prochain")
+	private Date dateProchian;
 
-	private double montant;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column( name="date_comptable")
+	private Date dateComptable;
+	
+	private Double montant;
 
 	private String note;
 
 	private String type;
 	
-	@Column( name="code_proprio")
-	private String codeProprio;
-
+	private String beneficiaire;
+	
+	@Column( name="id_benef")
+	private Integer idBenef;
+	
+	private Double avance;
+	
+	@Column( name="motif_operation")
+	private String motifOperation;
+	
+	@Column( name="montant_dus")
+	private Double montantDus;
+	
+	@Column( name="montant_payer")
+	private Double montantPayer;
+	
+	@Column( name="montant_ceder")
+	private Double montantCeder;
+	
+	@Column( name="code_vehicule")
+	private String codeVehicule;
+	
+	@Column( name="code_chauffeur")
+	private String codeChauffeur;
+	
 	//bi-directional many-to-one association to Employee
 	@ManyToOne
 	private Employee employee;
 
 	public Operation() {
+	}
+
+	public Operation(String beneficiaire, Date dateProchain, Date dateComptable, double montant, String note, String type,
+			 Integer idBenef, Double avance, String motifOperation) {
+		super();
+		this.beneficiaire = beneficiaire;
+		this.montant = montant;
+		this.note = note;
+		this.type = type;
+		this.idBenef = idBenef;
+		this.avance = avance;
+		this.motifOperation = motifOperation;
+		this.date = new Date();
+		this.dateProchian = dateProchain;
+		this.dateComptable = dateComptable;
+	}
+	
+	
+
+	public Operation(Date date, Date dateProchian, Double montant, String note, String type, String beneficiaire,
+			Integer idBenef, Double avance, String motifOperation, Double montantDus, Double montantPayer,
+			Double montantCeder, String codeVehicule, String codeChauffeur) {
+		super();
+		this.date = date;
+		this.dateProchian = dateProchian;
+		this.montant = montant;
+		this.note = note;
+		this.type = type;
+		this.beneficiaire = beneficiaire;
+		this.idBenef = idBenef;
+		this.avance = avance;
+		this.motifOperation = motifOperation;
+		this.montantDus = montantDus;
+		this.montantPayer = montantPayer;
+		this.montantCeder = montantCeder;
+		this.codeVehicule = codeVehicule;
+		this.codeChauffeur = codeChauffeur;
 	}
 
 	public int getId() {
@@ -48,14 +113,6 @@ public class Operation implements Serializable {
 		this.id = id;
 	}
 
-	public String getCode() {
-		return this.code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
 	public Date getDate() {
 		return this.date;
 	}
@@ -64,11 +121,11 @@ public class Operation implements Serializable {
 		this.date = date;
 	}
 
-	public double getMontant() {
+	public Double getMontant() {
 		return this.montant;
 	}
 
-	public void setMontant(double montant) {
+	public void setMontant(Double montant) {
 		this.montant = montant;
 	}
 
@@ -96,12 +153,92 @@ public class Operation implements Serializable {
 		this.employee = employee;
 	}
 
-	public String getCodeProprio() {
-		return codeProprio;
+	public Integer getIdBenef() {
+		return idBenef;
 	}
 
-	public void setCodeProprio(String codeProprio) {
-		this.codeProprio = codeProprio;
+	public void setIdBenef(Integer idBenef) {
+		this.idBenef = idBenef;
+	}
+
+	public Double getAvance() {
+		return avance;
+	}
+
+	public void setAvance(Double avance) {
+		this.avance = avance;
+	}
+
+	public String getMotifOperation() {
+		return motifOperation;
+	}
+
+	public void setMotifOperation(String motifOperation) {
+		this.motifOperation = motifOperation;
+	}
+
+	public Date getDateProchian() {
+		return dateProchian;
+	}
+
+	public void setDateProchian(Date dateProchian) {
+		this.dateProchian = dateProchian;
+	}
+
+	public String getBeneficiaire() {
+		return beneficiaire;
+	}
+
+	public void setBeneficiaire(String beneficiaire) {
+		this.beneficiaire = beneficiaire;
+	}
+
+	public Double getMontantDus() {
+		return montantDus;
+	}
+
+	public void setMontantDus(Double montantDus) {
+		this.montantDus = montantDus;
+	}
+
+	public Double getMontantPayer() {
+		return montantPayer;
+	}
+
+	public void setMontantPayer(Double montantPayer) {
+		this.montantPayer = montantPayer;
+	}
+
+	public Double getMontantCeder() {
+		return montantCeder;
+	}
+
+	public void setMontantCeder(Double montantCeder) {
+		this.montantCeder = montantCeder;
+	}
+
+	public String getCodeVehicule() {
+		return codeVehicule;
+	}
+
+	public void setCodeVehicule(String codeVehicule) {
+		this.codeVehicule = codeVehicule;
+	}
+
+	public String getCodeChauffeur() {
+		return codeChauffeur;
+	}
+
+	public void setCodeChauffeur(String codeChauffeur) {
+		this.codeChauffeur = codeChauffeur;
+	}
+
+	public Date getDateComptable() {
+		return dateComptable;
+	}
+
+	public void setDateComptable(Date dateComptable) {
+		this.dateComptable = dateComptable;
 	}
 
 }

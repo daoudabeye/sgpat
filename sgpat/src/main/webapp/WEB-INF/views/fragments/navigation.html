@@ -68,25 +68,22 @@
 					<li><a th:href="@{/vehicule/liste}">Liste de vehicule</a></li>
 					<li><a th:href="@{/vehicule/categorie}">Categorie de
 							vehicule</a></li>
-					<li><a th:href="@{/vehicule/maintenance}">Fiche Technique</a></li>
-					<li><a th:href="@{/vehicule/maintenance}">Pièces Détachées</a></li>
+					<li><a th:href="@{/vehicule/maintenance}">Révision</a></li>
 				</ul></li>
 			<li sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_AGENT')"><a
 				href="#"><span class="nav-label">Chauffeur</span><span
 					class="fa arrow"></span> </a>
 				<ul class="nav nav-second-level">
-					<li><a
-						th:href="@{/vehicule/recettes?date=today&fragment=false&codeChauffeur=none}">Recettes</a></li>
 					<li><a th:href="@{/conducteur/nouveau?message=none}">Ajouter</a></li>
 					<li><a th:href="@{/conducteur/liste}">Liste</a></li>
-					<li><a
-						th:href="@{/conducteur/salaire?methode=get&montant=0&date=date&codeChauffeur=ch}">Salaires</a></li>
 				</ul></li>
 			<li sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_AGENT')"><a
-				href="#"><span class="nav-label">Caisse</span><span
+				href="#"><span class="nav-label">Opération</span><span
 					class="fa arrow"></span> </a>
 				<ul class="nav nav-second-level">
-					<li><a th:href="@{/admin/operation}">Opération</a></li>
+					<li><a th:href="@{/operation/caisse}">Caisse</a></li>
+					<li><a th:href="@{/operation/salaire}">Salaire</a></li>
+					<li><a th:href="@{/operation/virement}">Virement</a></li>
 					<li><a th:href="@{/}">Revenu</a></li>
 
 				</ul></li>
@@ -100,10 +97,11 @@
 					<li><a th:href="@{/}">Caisse</a></li>
 				</ul></li>
 			<li sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_AGENT')"><a
-				href="#"><span class="nav-label">Maintenance</span><span
+				href="#"><span class="nav-label">Garage</span><span
 					class="fa arrow"></span> </a>
 				<ul class="nav nav-second-level">
-					<li><a th:href="@{/}">Gestion Pièces</a></li>
+					<li><a th:href="@{/vehicule/garage}">Entrée Garage</a></li>
+					<li><a th:href="@{/vehicule/gestion/pieces}">Gestion Pièces</a></li>
 					<li><a th:href="@{/}">Gestion Founisseur</a></li>
 					<li><a th:href="@{/}">Gestion Mecano/Tolier</a></li>
 					<li><a th:href="@{/}">Créer Founisseur</a></li>

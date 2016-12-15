@@ -61,6 +61,34 @@ public class VehiculeForm {
 		return marque;
 	}
 	
+	public VehiculeForm(){}
+	
+	public VehiculeForm(Vehicule vehicule) {
+		super();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		this.marque = vehicule.getMarque();
+		this.type = vehicule.getType();
+		this.immatriculation = vehicule.getImmatriculation();
+		this.couleur = vehicule.getCouleur();
+		this.prixAchat = vehicule.getPrixAchat();
+		this.kilometrage = vehicule.getKilometrageActuel();
+		this.observations = vehicule.getObservations();
+		this.nomCategorie = "";
+		this.energie = vehicule.getEnergie();
+		this.nombreDePlace = vehicule.getNombreDePlace();
+		this.classe = vehicule.getClasse();
+		this.niveauCarburant = vehicule.getNiveauCarburant();
+		this.kilometrageActuel = vehicule.getKilometrageInitial();
+		this.kilometrageInitial = vehicule.getKilometrageInitial();
+		this.roueSecours = vehicule.getRoueDeSecours() ? "OUI" : "NOM";
+		this.dateMiseEnService = sdf.format(vehicule.getDateMiseEnService());
+		this.numeroSerie = vehicule.getNumeroSerie();
+		this.proprio = "";
+		this.chauffeur = "";
+	}
+
+
 	public Vehicule createVehicule(){
 		SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy");
 		Date dateMs = new Date();
