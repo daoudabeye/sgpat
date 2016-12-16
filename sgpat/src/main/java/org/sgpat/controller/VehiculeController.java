@@ -2,6 +2,7 @@ package org.sgpat.controller;
 
 import javax.validation.Valid;
 
+import org.sgpat.entity.Chauffeur;
 import org.sgpat.entity.Vehicule;
 import org.sgpat.form.CategorieForm;
 import org.sgpat.form.MaintenanceForm;
@@ -65,6 +66,17 @@ public class VehiculeController {
 		return NEW_VEHICULE_VIEW;
 	}
 	
+	@RequestMapping(value = "retrieve", params = {"codeChauffeur", "vue" , "fragment"}, method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	@Secured({"ROLE_AGENT", "ROLE_ADMIN"})
+	public String retrieve(Model model, @RequestParam("codeChauffeur") String codeChauffeur, @RequestParam("vue") String vue,
+			@RequestParam("fragment") String fragment){
+		Chauffeur ch = chauffeurService.findByCode(codeChauffeur);
+		if(ch != null)
+			model.addAttribute("vehicule", vehiculeService.findVehicule(ch));
+		return vue + " :: " + fragment;
+	}
+	
 	@RequestMapping(value = "update", params="codeVehicule",  method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	@Secured({"ROLE_AGENT", "ROLE_ADMIN"})
@@ -104,6 +116,25 @@ public class VehiculeController {
 	@Secured({"ROLE_AGENT", "ROLE_ADMIN"})
 	public String pieces(Model model){
 		model.addAttribute("pieces", vehiculeService.getAllPieces());
+		model.addAttribute("vehicules", vehiculeService.getAll());
+		model.addAttribute(new pieceForm());
+		return PIECES_VIEW;
+	}
+	
+	@RequestMapping(value = "pieces/link", params = { "vehicule" , "piece" }, method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	@Secured({"ROLE_AGENT", "ROLE_ADMIN"})
+	public String piecesAssocier(Model model, @RequestParam("vehicule")Integer idVehicule, @RequestParam("piece")Integer idPiece){
+		try {
+			vehiculeService.addPiece(idVehicule, idPiece);
+			model.addAttribute("success", "Pièce associée au vehicule avec succès");
+		} catch (Exception e) {
+			// TODO: handle exception
+			model.addAttribute("errorMessage", e.getMessage());
+		}
+		
+		model.addAttribute("pieces", vehiculeService.getAllPieces());
+		model.addAttribute("vehicules", vehiculeService.getAll());
 		model.addAttribute(new pieceForm());
 		return PIECES_VIEW;
 	}
@@ -113,6 +144,7 @@ public class VehiculeController {
 	@Secured({"ROLE_AGENT", "ROLE_ADMIN"})
 	public String garage(Model model){
 		model.addAttribute("vehicules", vehiculeService.getAll());
+		model.addAttribute("chauffeurs", chauffeurService.getAll());
 		model.addAttribute(new MaintenanceForm());
 		return GARAGE_VIEW;
 	}
@@ -186,6 +218,8 @@ public class VehiculeController {
 			model.addAttribute("categories", categorieService.getAll());
 			model.addAttribute("proprios", proprioService.findAll());
 			model.addAttribute("chauffeurs", chauffeurService.getAll());
+			model.addAttribute("codeVehicule", codeVehicule);
+			model.addAttribute("errorMessage", errors.toString());
 			return UPDATE_VEHICULE;
 		}
 		
@@ -197,6 +231,7 @@ public class VehiculeController {
 			model.addAttribute("proprios", proprioService.findAll());
 			model.addAttribute("chauffeurs", chauffeurService.getAll());
 			model.addAttribute("errorMessage", "Erreur : "+e.getMessage());
+			model.addAttribute("codeVehicule", codeVehicule);
 			e.printStackTrace();
 			return UPDATE_VEHICULE;
 		}

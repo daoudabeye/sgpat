@@ -26,15 +26,9 @@ public class ProprioForm {
 	
 	public ProprioForm(){}
 	
-	
 	public Proprio create() {
-		System.out.println(nom);
-		System.out.println(prenom);
-		System.out.println(adresse);
-		System.out.println(numeroCompte);
-		System.out.println(banque);
 		String designation = this.nom + " "+ this.prenom;
-		return new Proprio(adresse, designation, email, telephone, banque, mensualite);
+		return new Proprio(adresse, designation, email, telephone, banque, mensualite, numeroCompte);
 	}
 
 

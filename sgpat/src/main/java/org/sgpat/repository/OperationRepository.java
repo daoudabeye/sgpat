@@ -18,5 +18,13 @@ public interface OperationRepository extends CrudRepository<Operation, Integer> 
 			+ " o.type=:type and DATE(:date)=o.date order by o.id DESC")
 	List<Operation> findByBeneficiaireAndTypeAndDate(@Param("codeBeneficiare")String codeBeneficiare, 
 			@Param("type")String typeOperation,@Param("date") Date date);
+	
+	@Query(value = "SELECT o FROM Operation o where o.beneficiaire=:codeBeneficiare AND"
+			+ " DATE(:date)=o.dateComptable order by o.id DESC")
+	List<Operation> findByDateComptable(@Param("codeBeneficiare")String codeBeneficiare,@Param("date") Date date);
+	
+	@Query(value = "SELECT * FROM operation o where o.beneficiaire=:codeBeneficiare AND"
+			+ " DATE(:date)=o.date_comptable limit 1", nativeQuery=true)
+	Operation findLast(@Param("codeBeneficiare")String codeBeneficiare,@Param("date") Date date);
 
 }

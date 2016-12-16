@@ -31,6 +31,9 @@
 <link rel="stylesheet" media="screen"
 	th:href="@{/resources/datatables.net-bs/css/dataTables.bootstrap.min.css}" />
 
+<link rel="stylesheet" media="screen"
+	th:href="@{/resources/select2-3.5.2/select2.css}" />
+
 <!-- App styles -->
 <link
 	href="../../../resources/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css"
@@ -77,6 +80,15 @@
 	<div id="wrapper">
 
 		<div class="content animate-panel">
+			<th:block th:if="${errorMessage != null}">
+				<div
+					th:replace="fragments/alert :: alert (type='danger', message=${errorMessage})">Alert</div>
+			</th:block>
+
+			<th:block th:if="${success != null}">
+				<div
+					th:replace="fragments/alert :: alert (type='success', message=${success})">Alert</div>
+			</th:block>
 			<div class="row">
 				<div class="col-lg-6">
 					<div class="hpanel">
@@ -127,7 +139,7 @@
 														<i class="pe-7s-note2"></i><span class="font-icon-name">
 															Autres</span>
 													</legend>
-													
+
 													<div class="input-group m-b">
 														<span class="input-group-addon"><i
 															class="pe-7s-info"></i></span> <input type="text"
@@ -139,7 +151,7 @@
 														<span class="input-group-addon"><i
 															class="pe-7s-info"></i></span>
 														<textarea placeholder="Etat" class="form-control"
-														th:field="*{etat}"></textarea>
+															th:field="*{etat}"></textarea>
 													</div>
 												</fieldset>
 											</div>
@@ -157,7 +169,7 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<div class="col-lg-6">
 					<div class="hpanel">
 						<div class="panel-body">
@@ -173,12 +185,10 @@
 												</legend>
 												<p>Code Vehicule</p>
 												<select class="js-source-states" style="width: 100%"
-													onselect="retrieveChauffeur()" id="codeChauffeur">
+													id="idVehicule">
 													<option value="">--- Choisir----</option>
-													<option th:each="chauffeur : ${chauffeurs}"
-														onclick="retrieveChauffeur()"
-														th:value="${chauffeur.codeChauffeur}"
-														th:text="${chauffeur.nom+' '+chauffeur.prenom+' ('+chauffeur.codeChauffeur+')'}">Alaska</option>
+													<option th:each="vehicule : ${vehicules}"
+														th:value="${vehicule.id}" th:text="${vehicule.code}">Alaska</option>
 												</select>
 											</fieldset>
 										</div>
@@ -189,15 +199,15 @@
 														PIECES</span>
 												</legend>
 												<p>LISTE</p>
-												<select class="js-source-states" style="width: 100%">
+												<select class="js-source-states" style="width: 100%"
+													id="idPiece">
 													<option value="">--- Choisir----</option>
-													<option th:each="piece : ${pieces}"
-														th:value="${piece.designation}"
+													<option th:each="piece : ${pieces}" th:value="${piece.id}"
 														th:text="${piece.designation}">Alaska</option>
 												</select>
 												<div class="form-group">
 													<div class="input-group date">
-														<a class="btn btn-info" onclick="makePaiement()">ASSOCIER</a>
+														<a class="btn btn-info" onclick="linkPiece()">ASSOCIER</a>
 													</div>
 												</div>
 											</fieldset>
@@ -237,7 +247,7 @@
 								</thead>
 								<tbody>
 									<tr th:each="piece : ${pieces}">
-										<td><span  th:text=${piece.designation}></span></td>
+										<td><span th:text=${piece.designation}></span></td>
 										<td><span th:text=${piece.prix}></span></td>
 										<td><span th:text=${piece.marque}></span></td>
 										<td class="text-center"><span th:text=${piece.reference}></span></td>
@@ -290,6 +300,7 @@
 
 	<script
 		th:src="@{/resources/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js}"></script>
+	<script th:src="@{/resources/select2-3.5.2/select2.min.js}"></script>
 	<!-- App scripts -->
 	<script th:src="@{/resources/js/homer.js}"></script>
 
@@ -324,6 +335,9 @@
 
 			// Initialize Example 2
 			$('#example2').dataTable();
+			
+			$(".js-source-states").select2();
+			$(".js-source-states-2").select2();
 		});
 	</script>
 
@@ -331,6 +345,17 @@
 		$("#remise").TouchSpin({
 			postfix : '%'
 		});
+		
+		function linkPiece() {
+			var url = '/sgpat/vehicule/pieces/link?';
+
+			url = url + '&vehicule=' + $('#idVehicule').val();
+			url = url + '&piece=' + $('#idPiece').val();
+
+			//$("#fragment").load(url);
+			//loadUrl(url);
+			window.location = url;
+		}
 	</script>
 
 </body>

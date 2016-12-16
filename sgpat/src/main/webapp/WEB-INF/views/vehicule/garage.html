@@ -96,8 +96,7 @@
 							<div th:fragment="form">
 								<div class="row">
 									<form th:method="post" class="form-horizontal"
-										th:action="@{/vehicule/garage}"
-										th:object="${maintenanceForm}">
+										th:action="@{/vehicule/garage}" th:object="${maintenanceForm}">
 										<th:block th:if="${#fields.hasErrors('${maintenanceForm.*}')}">
 											<div
 												th:replace="fragments/alert :: alert (type='danger', message='Le formulaire contient des erreurs, Merci de corriger.')">Alert</div>
@@ -117,12 +116,22 @@
 														<i class="pe-7s-user"></i><span class="font-icon-name">
 															Détails</span>
 													</legend>
-													<p>Véhicule</p>
-													<select class="js-source-states" style="width: 100%"
-														th:field="*{vehicule}">
-														<option th:each="vehicule : ${vehicules}"
-															th:value=${vehicule.code} th:text=${vehicule.code}>Alaska</option>
+													<h5>Chauffeur</h5>
+													<select onblur="retrieve()" onselect="retrieve()" id="selectChauffeur"
+														class="js-source-states" style="width: 100%">
+														<option value="">Choisir</option>
+														<option th:each="chauffeur : ${chauffeurs}"
+															th:text="${chauffeur.nom+' '+ chauffeur.prenom+' ('+chauffeur.codeChauffeur+')'}"
+															th:value="${chauffeur.codeChauffeur}">Alaska</option>
 													</select>
+													<div th:fragment="vehiculeFragment" id="vehiculeFragment">
+														<p>Véhicule</p>
+														<select class="js-source-states" style="width: 100%"
+															th:field="*{vehicule}" th:value="${vehicule}">
+															<option th:each="vehicule : ${vehicules}"
+																th:value=${vehicule.code} th:text=${vehicule.code}>Alaska</option>
+														</select>
+													</div>
 													<p>Nature Opération</p>
 													<div class="input-group m-b">
 														<span class="input-group-addon"><i
@@ -198,6 +207,15 @@
 																th:classappend="${#fields.hasErrors('dateProchain')}? 'error'">
 														</div>
 													</div>
+													
+													<p>Motif</p>
+													<div class="input-group m-b">
+														<span class="input-group-addon"><i
+															class="pe-7s-info"></i></span> <input type="text"
+															placeholder="désignation" class="form-control"
+															th:field="*{motif}"
+															th:classappend="${#fields.hasErrors('motif')}? 'error'">
+													</div>
 												</fieldset>
 											</div>
 										</div>
@@ -258,6 +276,8 @@
 			$('#datepicker .input-daterange').datepicker({});
 
 		});
+		
+		
 
 		// ClockPicker
 		$('.clockpicker').clockpicker({
@@ -267,6 +287,20 @@
 		$(".js-source-states").select2();
 		$(".js-source-states-2").select2();
 	</script>
+	
+	<script type="text/javascript">
+		function retrieve() {
+			var url = '/sgpat/vehicule/retrieve?';
+
+			url = url + 'codeChauffeur=' + $('#selectChauffeur').val();
+			url = url + '&vue=vehicule/garage';
+			url = url + '&fragment=vehiculeFragment';
+
+			//$("#fragment").load(url);
+			//loadUrl(url);
+			$( "#vehiculeFragment" ).load( url );
+		}
+		</script>
 
 </body>
 </html>

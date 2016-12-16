@@ -108,6 +108,19 @@ public class VehiculeService {
 	public List<Piece> findPieceByVehicule(String codeVehicule){
 		return pieceRepository.findByVehiculeCode(codeVehicule);
 	}
+	
+	@Transactional
+	public void addPiece(Integer idVehicule, Integer idPiece){
+		try {
+			int i = pieceRepository.updateVehicule(idPiece, idVehicule);
+			if(i <= 0)
+				Assert.isTrue(false, "Ajout non effectué, Merci de réessayer");
+		} catch (Exception e) {
+			// TODO: handle exception
+			Assert.isTrue(false, "Une erreur est survenue lors de l'ajout.");
+		}
+	}
+	
 	@Transactional
 	public Vehicule create(VehiculeForm vehiculeForm) {
 		// TODO Auto-generated method stub

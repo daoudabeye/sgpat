@@ -43,6 +43,8 @@ public class Maintenance implements Serializable {
 	private String statut;
 
 	private String type;
+	
+	private String motif;
 
 	//bi-directional many-to-one association to Vehicule
 	@ManyToOne
@@ -52,7 +54,7 @@ public class Maintenance implements Serializable {
 	}
 
 	public Maintenance( double coutRevision, Date dateProchainRevision, String designation, String statut,
-			String type) {
+			String type, String motif) {
 		super();
 		this.coutRevision = coutRevision;
 		this.dateProchainRevision = dateProchainRevision;
@@ -60,6 +62,7 @@ public class Maintenance implements Serializable {
 		this.statut = statut;
 		this.type = type;
 		this.dateRevision = new Date();
+		this.motif = motif;
 	}
 
 	public int getId() {
@@ -140,6 +143,14 @@ public class Maintenance implements Serializable {
 
 	public void setDateEntre(Date dateEntre) {
 		this.dateEntre = dateEntre;
+	}
+
+	public String getMotif() {
+		return motif;
+	}
+
+	public void setMotif(String motif) {
+		this.motif = motif;
 	}
 
 }

@@ -62,10 +62,12 @@ public class ConducteurController {
 	@Secured({"ROLE_AGENT", "ROLE_ADMIN"})
 	public String profile(Model model, @RequestParam("codeChauffeur") String codeChauffeur){
 		Chauffeur chauffeur = chauffeurService.findByCode(codeChauffeur);
+		Vehicule vehicule = vehiculeService.findVehicule(chauffeur);
 		model.addAttribute("chauffeur", chauffeur);
 		model.addAttribute("recettes", operationService.findByCode(chauffeur.getCodeChauffeur(), "RECETTE"));
-		model.addAttribute("vehicule", vehiculeService.findVehicule(chauffeur));
-		model.addAttribute("salaires", "chauffeurService.findSalaire(codeChauffeur)");
+		model.addAttribute("vehicule", vehicule);
+		model.addAttribute("salaires", operationService.findByCode(chauffeur.getCodeChauffeur(), "SALAIRE"));
+		model.addAttribute("maintenances", vehiculeService.findMaintenance(vehicule == null ? "" : vehicule.getCode()));
 		return PROFILE_VIEW;
 	}
 	
@@ -176,10 +178,11 @@ public class ConducteurController {
 		Double totalPayer = 0.0;
 		Double totalImpayer = 0.0;
 		for(Operation o : operations){
-			totalPayer += o.getMontantPayer();
-			totalImpayer += (o.getMontantDus() - o.getMontantPayer());
+			totalPayer += o.getMontant();
+			totalImpayer += (o.getMontantDus() - o.getMontant());
 		}
 		
+		model.addAttribute("operations", operations);
 		model.addAttribute("totalPayer", totalPayer);
 		model.addAttribute("totalImpayer", totalImpayer);
 		model.addAttribute("chauffeurs", chauffeurService.getAll());

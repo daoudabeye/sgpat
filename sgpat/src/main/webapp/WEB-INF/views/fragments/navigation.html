@@ -81,8 +81,9 @@
 				href="#"><span class="nav-label">Opération</span><span
 					class="fa arrow"></span> </a>
 				<ul class="nav nav-second-level">
-					<li><a th:href="@{/operation/caisse}">Caisse</a></li>
+					<li><a th:href="@{/operation/recette}">Recette</a></li>
 					<li><a th:href="@{/operation/salaire}">Salaire</a></li>
+					<li><a th:href="@{/operation/caisse}">Caisse</a></li>
 					<li><a th:href="@{/operation/virement}">Virement</a></li>
 					<li><a th:href="@{/}">Revenu</a></li>
 
@@ -101,7 +102,8 @@
 					class="fa arrow"></span> </a>
 				<ul class="nav nav-second-level">
 					<li><a th:href="@{/vehicule/garage}">Entrée Garage</a></li>
-					<li><a th:href="@{/vehicule/gestion/pieces}">Gestion Pièces</a></li>
+					<li><a th:href="@{/vehicule/gestion/pieces}">Gestion
+							Pièces</a></li>
 					<li><a th:href="@{/}">Gestion Founisseur</a></li>
 					<li><a th:href="@{/}">Gestion Mecano/Tolier</a></li>
 					<li><a th:href="@{/}">Créer Founisseur</a></li>
@@ -113,6 +115,7 @@
 				<ul class="nav nav-second-level">
 					<li><a th:href="@{/admin/nouveau}">Créer Utilisateur</a></li>
 					<li><a th:href="@{/admin/profile}">Profile</a></li>
+					<li><a th:href="@{/admin/document}">Document</a></li>
 					<li><a th:href="@{/admin/partenaires}">Partenaires</a></li>
 				</ul></li>
 			<li sec:authorize="hasRole('ROLE_ADMIN')"><a href="#"><span

@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.sgpat.account.Account;
 import org.sgpat.account.AccountService;
+import org.sgpat.entity.Categorie;
 import org.sgpat.entity.Chauffeur;
 import org.sgpat.entity.Employee;
 import org.sgpat.entity.Operation;
 import org.sgpat.entity.Proprio;
+import org.sgpat.entity.Vehicule;
 import org.sgpat.form.OperationForm;
 import org.sgpat.repository.EmployeeRepository;
 import org.sgpat.repository.OperationRepository;
@@ -33,6 +35,9 @@ public class OperationService {
 	
 	@Autowired
 	ProprioService proprioService;
+	
+	@Autowired
+	VehiculeService vehiculeService;
 	
 	public List<Operation> findByCode(String codeBeneficiare){
 		return operationRepository.findByBeneficiaire(codeBeneficiare);
@@ -105,6 +110,42 @@ public class OperationService {
 		Employee employee = employeeRepository.findFirst1ByAccountId(current.getId());
 		
 		op.setEmployee(employee);
+		op = operationRepository.save(op);
+		return op;
+	}
+	
+	public Operation makeRecette(OperationForm operationForm){
+		Operation op = operationForm.create();
+		op.setType("RECETTE");
+		
+		Chauffeur chauffeur = chauffeurService.findByCode(operationForm.getBeneficiaire());
+		Assert.notNull(chauffeur, "Code chauffeur incorrect");
+		
+		Vehicule vehicule = vehiculeService.findVehicule(chauffeur);
+		Assert.notNull(vehicule, "Aucun véhicule pour ce chauffeur");
+		Categorie categorie = vehicule.getCategorie();
+		
+		Double restApayer = categorie.getPrixParJours() - op.getMontant() - operationForm.getMontantCeder();
+		
+		op.setIdBenef(chauffeur.getId());
+		op.setBeneficiaire(chauffeur.getCodeChauffeur());
+		op.setMontantDus(restApayer);
+		op.setMontantCeder(operationForm.getMontantCeder());
+		
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Account current = accountService.findByUsername(username);
+		Employee employee = employeeRepository.findFirst1ByAccountId(current.getId());
+		
+		op.setEmployee(employee);
+		
+		Operation last = operationRepository.findLast(operationForm.getBeneficiaire(), 
+				op.getDateComptable());
+		Double montantDus = 0.0;
+		if(last != null){
+			montantDus += (last.getMontantDus() - op.getMontant());
+			op.setMontantDus(montantDus);
+		}
+		
 		op = operationRepository.save(op);
 		return op;
 	}

@@ -23,6 +23,8 @@ public class OperationForm {
 	
 	private Double avance;
 	
+	private Double montantCeder;
+	
 	private String motif;
 	
 	private String dateProchain;
@@ -133,6 +135,14 @@ public class OperationForm {
 
 	public void setDateComptable(String dateComptable) {
 		this.dateComptable = dateComptable;
+	}
+
+	public Double getMontantCeder() {
+		return montantCeder;
+	}
+
+	public void setMontantCeder(Double montantCeder) {
+		this.montantCeder = montantCeder;
 	}
 
 }

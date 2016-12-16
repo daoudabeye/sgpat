@@ -22,6 +22,8 @@ public class MaintenanceForm {
 	@NotBlank(message = MaintenanceForm.NOT_BLANK_MESSAGE)
 	private String statut;
 	
+	private String motif;
+	
 	private Double cout;
 	
 	@NotBlank(message = MaintenanceForm.NOT_BLANK_MESSAGE)
@@ -45,7 +47,7 @@ public class MaintenanceForm {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		Maintenance m = new Maintenance(cout, dateProchainRevision, designation, statut, natureOperation);
+		Maintenance m = new Maintenance(cout, dateProchainRevision, designation, statut, natureOperation, motif);
 		m.setDateEntre(dateE);
 		m.setDateSortie(dateS);
 		return m;

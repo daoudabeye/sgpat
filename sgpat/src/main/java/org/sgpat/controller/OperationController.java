@@ -28,6 +28,7 @@ public class OperationController {
 	private final static String CAISSE = "operation/caisse";
 	private final static String VIREMENT = "operation/virement";
 	private final static String SALAIRE = "operation/salaire";
+	private final static String RECETTE = "operation/recette";
 
 	@Autowired 
 	OperationService operationService;
@@ -62,6 +63,15 @@ public class OperationController {
 		model.addAttribute(new OperationForm());
 		model.addAttribute("chauffeurs", chauffeurService.getAll());
 		return SALAIRE;
+	}
+	
+	@RequestMapping(value = "recette", method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	@Secured({"ROLE_AGENT", "ROLE_ADMIN"})
+	public String recette(Model model) {
+		model.addAttribute(new OperationForm());
+		model.addAttribute("chauffeurs", chauffeurService.getAll());
+		return RECETTE;
 	}
 
 	@RequestMapping(value = "salaire", params ={ "codeChauffeur"}, method = RequestMethod.GET)
@@ -110,6 +120,9 @@ public class OperationController {
 				break;
 			case "SALAIRE":
 				operationService.makeSalaire(operationForm);
+				break;
+			case "RECETTE":
+				operationService.makeRecette(operationForm);
 				break;
 
 			default:

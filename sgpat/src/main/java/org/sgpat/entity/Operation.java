@@ -49,17 +49,8 @@ public class Operation implements Serializable {
 	@Column( name="montant_dus")
 	private Double montantDus;
 	
-	@Column( name="montant_payer")
-	private Double montantPayer;
-	
 	@Column( name="montant_ceder")
 	private Double montantCeder;
-	
-	@Column( name="code_vehicule")
-	private String codeVehicule;
-	
-	@Column( name="code_chauffeur")
-	private String codeChauffeur;
 	
 	//bi-directional many-to-one association to Employee
 	@ManyToOne
@@ -86,8 +77,7 @@ public class Operation implements Serializable {
 	
 
 	public Operation(Date date, Date dateProchian, Double montant, String note, String type, String beneficiaire,
-			Integer idBenef, Double avance, String motifOperation, Double montantDus, Double montantPayer,
-			Double montantCeder, String codeVehicule, String codeChauffeur) {
+			Integer idBenef, Double avance, String motifOperation, Double montantDus,Double montantCeder) {
 		super();
 		this.date = date;
 		this.dateProchian = dateProchian;
@@ -99,10 +89,7 @@ public class Operation implements Serializable {
 		this.avance = avance;
 		this.motifOperation = motifOperation;
 		this.montantDus = montantDus;
-		this.montantPayer = montantPayer;
 		this.montantCeder = montantCeder;
-		this.codeVehicule = codeVehicule;
-		this.codeChauffeur = codeChauffeur;
 	}
 
 	public int getId() {
@@ -201,36 +188,12 @@ public class Operation implements Serializable {
 		this.montantDus = montantDus;
 	}
 
-	public Double getMontantPayer() {
-		return montantPayer;
-	}
-
-	public void setMontantPayer(Double montantPayer) {
-		this.montantPayer = montantPayer;
-	}
-
 	public Double getMontantCeder() {
 		return montantCeder;
 	}
 
 	public void setMontantCeder(Double montantCeder) {
 		this.montantCeder = montantCeder;
-	}
-
-	public String getCodeVehicule() {
-		return codeVehicule;
-	}
-
-	public void setCodeVehicule(String codeVehicule) {
-		this.codeVehicule = codeVehicule;
-	}
-
-	public String getCodeChauffeur() {
-		return codeChauffeur;
-	}
-
-	public void setCodeChauffeur(String codeChauffeur) {
-		this.codeChauffeur = codeChauffeur;
 	}
 
 	public Date getDateComptable() {

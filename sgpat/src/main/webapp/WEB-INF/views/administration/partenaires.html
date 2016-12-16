@@ -224,6 +224,8 @@
 										<th>Mensualité</th>
 										<th>Compte</th>
 										<th>Banque</th>
+										<th>Action</th>
+										
 									</tr>
 								</thead>
 								<tbody>
@@ -233,9 +235,13 @@
 												class="label label-primary" th:text=${proprio.designation}></span></a></td>
 										<td><div th:text="${proprio.telephone }"></div></td>
 										<td><div th:text=${proprio.email}></div></td>
-										<td><div th:text=${nbrVehicule}></div></td>
+										<td><div th:text=${proprio.mensualite}></div></td>
 										<td><div th:text=${proprio.numeroCompte}></div></td>
 										<td><div th:text=${proprio.banque}></div></td>
+										<td class="text-right">
+											<a class="btn btn-default btn-xs">Modifier</a>
+											<a class="btn btn-default btn-xs">Supprimer</a>
+										</td>
 									</tr>
 								</tbody>
 							</table>

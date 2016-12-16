@@ -170,6 +170,9 @@
 
 							<ul class="nav nav-tabs">
 								<li class="active"><a data-toggle="tab" href="#tab-1">Vehicile</a></li>
+								<li><a data-toggle="tab" href="#tab-2">Recettes</a></li>
+								<li><a data-toggle="tab" href="#tab-3">Salaire</a></li>
+								<li><a data-toggle="tab" href="#tab-4">Garages</a></li>
 							</ul>
 							<div class="tab-content">
 								<div id="tab-1" class="tab-pane active">
@@ -193,28 +196,124 @@
 												</thead>
 												<tbody>
 													<th:block th:if="${vehicule != null}">
-													<tr>
-														<td><a
-															th:href="@{'/vehicule/profile?codeVehicule=' + ${vehicule.code}}"><span
-																class="label label-primary" th:text=${vehicule.code}></span></a></td>
-														<td><div th:text=${vehicule.classe}></div></td>
-														<td><div th:text=${vehicule.immatriculation}></div></td>
-														<td class="text-center"><div class="label label-info"
-																th:text=${vehicule.numeroSerie}></div></td>
-														<td class="text-center">
-															<div th:text=${vehicule.couleur}></div>
-														</td>
-														<td><span class="label label-info"
-															th:text=${vehicule.energie}></span></td>
-														<td><span class="label label-success"
-															th:text=${vehicule.etat}>EL</span></td>
-														<td><span class="label label-success"
-															th:text=${vehicule.proprio.designation}>TAXI-PLUS</span></td>
-														<td class="text-right"><a
-															class="btn btn-default btn-xs">Modifier</a> <a
-															class="btn btn-default btn-xs">Supprimer</a></td>
-													</tr>
+														<tr>
+															<td><a
+																th:href="@{'/vehicule/profile?codeVehicule=' + ${vehicule.code}}"><span
+																	class="label label-primary" th:text=${vehicule.code}></span></a></td>
+															<td><div th:text=${vehicule.classe}></div></td>
+															<td><div th:text=${vehicule.immatriculation}></div></td>
+															<td class="text-center"><div
+																	class="label label-info"
+																	th:text=${vehicule.numeroSerie}></div></td>
+															<td class="text-center">
+																<div th:text=${vehicule.couleur}></div>
+															</td>
+															<td><span class="label label-info"
+																th:text=${vehicule.energie}></span></td>
+															<td><span class="label label-success"
+																th:text=${vehicule.etat}>EL</span></td>
+															<td><span class="label label-success"
+																th:text=${vehicule.proprio.designation}>TAXI-PLUS</span></td>
+															<td class="text-right"><a
+																class="btn btn-default btn-xs">Modifier</a> <a
+																class="btn btn-default btn-xs">Supprimer</a></td>
+														</tr>
 													</th:block>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+
+								<div id="tab-2" class="tab-pane">
+									<div class="panel-body">
+										<strong>Recette</strong>
+
+										<div class="table-responsive">
+											<table class="table table-striped">
+												<thead>
+													<tr>
+														<th>Date</th>
+														<th>Montant</th>
+														<th>Payer</th>
+														<th>Date Operation</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="recette : ${recettes}">
+														<td><div th:text=${recette.dateComptable}></div></td>
+														<td><div th:text=${recette.montantDus}></div></td>
+														<td><div th:text=${recette.montant}></div></td>
+														<td><div class="label label-primary"
+																th:text=${recette.date}></div></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+
+								<div id="tab-3" class="tab-pane ">
+									<div class="panel-body">
+										<strong>Salaires</strong>
+
+										<div class="table-responsive">
+											<table class="table table-striped">
+												<thead>
+													<tr>
+														<th>Date</th>
+														<th>Montant Net</th>
+														<th>Avance</th>
+														<th>Motif</th>
+														<th>Action</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="salaire : ${salaires}">
+														<td><span class="label label-primary"
+															th:text="${salaire.date}">CH0001</span></td>
+														<td><span th:text="${salaire.montant }">CH0001</span></td>
+														<td><span th:text="${salaire.avance }">CH0001</span></td>
+														<td><span class="label label-success"
+															th:text="${salaire.motifOperation}">motif</span></td>
+
+														<td class="text-right">
+															<button class="btn btn-default btn-xs">Supprimer</button>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+
+								<div id="tab-4" class="tab-pane ">
+									<div class="panel-body">
+										<strong>Entrée garage</strong>
+
+										<div class="table-responsive">
+											<table class="table table-striped">
+												<thead>
+													<tr>
+														<th>Désignation</th>
+														<th>Cout</th>
+														<th>Date Révision</th>
+														<th>Date Prochain</th>
+														<th>Statut</th>
+														<th>Action</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="maintenance : ${maintenances}">
+														<td><span th:text="${maintenance.designation}"></span></td>
+														<td><span th:text="${maintenance.dateRevision}"></span></td>
+														<td><span
+															th:text="${maintenance.dateProchainRevision}"></span></td>
+														<td><span th:text="${maintenance.statut}"></span></td>
+														<td><span class="pie">VALIDE</span></td>
+														<td><a href="#"><i
+																class="fa fa-check text-success"></i></a></td>
+													</tr>
 												</tbody>
 											</table>
 										</div>

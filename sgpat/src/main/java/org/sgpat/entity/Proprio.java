@@ -67,7 +67,7 @@ public class Proprio implements Serializable {
 	}
 	
 	public Proprio(String adresse, String designation, String email, String telephone,
-			String banque, String mensualite) {
+			String banque, String numeroCompte, String mensualite) {
 		super();
 		this.adresse = adresse;
 		this.designation = designation;
@@ -76,6 +76,7 @@ public class Proprio implements Serializable {
 		this.banque = banque;
 		this.mensualite = mensualite;
 		this.dateInscription = new Date();
+		this.numeroCompte = numeroCompte;
 	}
 
 	public int getId() {

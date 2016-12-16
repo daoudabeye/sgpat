@@ -5,8 +5,10 @@ import javax.validation.Valid;
 import org.sgpat.account.AccountService;
 import org.sgpat.entity.Proprio;
 import org.sgpat.form.AgentForm;
+import org.sgpat.form.DocumentForm;
 import org.sgpat.form.ProprioForm;
 import org.sgpat.service.AdminService;
+import org.sgpat.service.ClientService;
 import org.sgpat.service.ProprioService;
 import org.sgpat.service.VehiculeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,7 @@ public class AdminController {
 	private final static String PARTENAIRES = "administration/partenaires";
 	private final static String PROFILE_PARTENAIRES = "administration/profile_partenaire";
 	private static final String PROPRIO_VIEW = "administration/partenaires";
+	private static final String DOCUMENTS = "administration/document";
 	
 	@Autowired
 	AdminService adminService;
@@ -45,12 +48,25 @@ public class AdminController {
 	@Autowired
 	VehiculeService vehiculeService;
 	
+	@Autowired
+	ClientService clientService;
+	
 	@RequestMapping(value = "nouveau", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	@Secured({"ROLE_AGENT", "ROLE_ADMIN"})
 	public String creer(Model model) {
 		model.addAttribute(new AgentForm());
 		return CREER_COMPTE_VIEW;
+	}
+	
+	@RequestMapping(value = "document", method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	@Secured({"ROLE_AGENT", "ROLE_ADMIN"})
+	public String document(Model model) {
+		model.addAttribute(new DocumentForm());
+		model.addAttribute("clients", clientService.getAll());
+		model.addAttribute("vehicules", vehiculeService.getAll());
+		return DOCUMENTS;
 	}
 	
 	@RequestMapping(value = "profile", method = RequestMethod.GET)
@@ -122,6 +138,28 @@ public class AdminController {
 		
 		model.addAttribute("proprios", proprioService.findAll());
 		return PROPRIO_VIEW;
+	}
+	
+	@RequestMapping(value = "document", params = { "profile" }, method = RequestMethod.POST)
+	@Secured({"ROLE_AGENT", "ROLE_ADMIN"})
+	public String document(@Valid @ModelAttribute DocumentForm documentForm, Errors errors, Model model,
+			RedirectAttributes ra, @RequestParam("profile") String profile, @RequestParam("code")String code) {
+		if (errors.hasErrors()) {
+			model.addAttribute("clients", clientService.getAll());
+			model.addAttribute("vehicules", vehiculeService.getAll());
+			return DOCUMENTS;
+		}
+		
+		try {
+			adminService.creerDocument(documentForm, profile);
+			model.addAttribute("success", "Le document à été Enregistré avec succès");
+		} catch (Exception e) {
+			// TODO: handle exception
+			model.addAttribute("errorMessage", "Erreur :"+e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return DOCUMENTS;
 	}
 	
 	
