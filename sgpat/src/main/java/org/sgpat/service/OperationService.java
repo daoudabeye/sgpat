@@ -1,5 +1,8 @@
 package org.sgpat.service;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.sgpat.account.Account;
@@ -45,6 +48,63 @@ public class OperationService {
 	
 	public List<Operation> findByCode(String codeBeneficiare, String typeOperation){
 		return operationRepository.findByBeneficiaireAndType(codeBeneficiare, typeOperation);
+	}
+	
+	/**
+	 * Fonction de recherche
+	 * @param date
+	 * @param type
+	 * @param code
+	 * @param statut
+	 * @return
+	 */
+	public List<Operation> find(String date, String date2, String type, String code, String statut){
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		List<Operation> operations = new ArrayList<>();
+		try {
+			Date d = new Date();
+			Date d2 = new Date();
+			if(!date.isEmpty())
+				d = sdf.parse(date);
+			if(!date2.isEmpty())
+				d2 = sdf.parse(date2);
+			
+			if(statut.isEmpty()){
+				if(code.isEmpty() ){
+					if(date2.isEmpty()){
+						operations = operationRepository.findByDateComptableAndType(d, type);
+					}else{
+						operations = operationRepository.findByDateComptableAndType(d, d2, type);
+					}
+				}
+				else{
+					if(date2.isEmpty()){
+						operations = operationRepository.findByDateComptableAndType(d, type, code);
+					}else{
+						operations = operationRepository.findByDateComptableAndType(d, d2, type, code);
+					}
+				}
+			}else{
+				if(code.isEmpty()){
+					if(date2.isEmpty()){
+						operations = operationRepository.findByDateComptableTypeStatut(d, type, statut);
+					}else{
+						operations = operationRepository.findByDateComptableTypeStatut(d, d2,type, statut);
+					}
+				}else{
+					if(date2.isEmpty()){
+						operations = operationRepository.findByDateComptableTypeCodeStatut(d, type, code, statut);
+					}else{
+						operations = operationRepository.findByDateComptableTypeCodeStatut(d, d2, type, code, statut);
+					}
+				}
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return operations;
 	}
 	
 	public Operation makeSalaire(OperationForm operationForm){

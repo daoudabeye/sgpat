@@ -1,8 +1,11 @@
 package org.sgpat.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.sgpat.entity.Chauffeur;
+import org.sgpat.entity.Operation;
 import org.sgpat.form.OperationForm;
 import org.sgpat.service.ChauffeurService;
 import org.sgpat.service.OperationService;
@@ -29,6 +32,7 @@ public class OperationController {
 	private final static String VIREMENT = "operation/virement";
 	private final static String SALAIRE = "operation/salaire";
 	private final static String RECETTE = "operation/recette";
+	private final static String SEARCH_OPERATION = "operation/historique";
 
 	@Autowired 
 	OperationService operationService;
@@ -94,6 +98,23 @@ public class OperationController {
 			model.addAttribute("errorMessage", "Erreur lors de l'enregistrement");
 		}
 		return SALAIRE_VIEW;
+	}
+	
+	@RequestMapping(value = "historique", params ={ "date" , "date2" , "type" , "beneficiaire" , "statut" }, method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	@Secured({"ROLE_AGENT", "ROLE_ADMIN"})
+	public String searchOperation(Model model,  @RequestParam(value = "date" ,  defaultValue = "") String date,
+			@RequestParam(value = "date2" ,  defaultValue = "") String date2,
+			@RequestParam(value = "beneficiaire",  defaultValue = "") String beneficiaire,
+			@RequestParam(value = "type",  defaultValue = "") String type, 
+			@RequestParam( value = "statut",  defaultValue = "")String statut){
+		List<Operation> recettes;
+		
+		recettes = operationService.find(date, date2, type , beneficiaire, statut);
+		
+		model.addAttribute("chauffeurs", chauffeurService.getAll());
+		model.addAttribute("recettes", recettes);
+		return SEARCH_OPERATION;
 	}
 
 	@RequestMapping(value = "confirmer", params ={ "type" , "vue"}, method = RequestMethod.POST)

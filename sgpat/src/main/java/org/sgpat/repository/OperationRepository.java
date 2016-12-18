@@ -26,5 +26,37 @@ public interface OperationRepository extends CrudRepository<Operation, Integer> 
 	@Query(value = "SELECT * FROM operation o where o.beneficiaire=:codeBeneficiare AND"
 			+ " DATE(:date)=o.date_comptable limit 1", nativeQuery=true)
 	Operation findLast(@Param("codeBeneficiare")String codeBeneficiare,@Param("date") Date date);
+	
+	@Query(value = "SELECT o FROM Operation o where o.type =:type AND"
+			+ " DATE(:date)=o.dateComptable order by o.id DESC")
+	List<Operation> findByDateComptableAndType(@Param("date") Date date, @Param("type") String type);
+	
+	@Query(value = "SELECT o FROM Operation o where o.type =:type AND"
+			+ " o.dateComptable BETWEEN DATE(:date) AND DATE(:date2) order by o.id DESC")
+	List<Operation> findByDateComptableAndType(@Param("date") Date date, @Param("date2") Date date2, @Param("type") String type);
+	
+	@Query(value = "SELECT o FROM Operation o where o.type =:type AND o.statut=:statut AND"
+			+ " DATE(:date)=o.dateComptable order by o.id DESC")
+	List<Operation> findByDateComptableTypeStatut(@Param("date") Date date, @Param("type") String type, @Param("statut") String statut );
+	
+	@Query(value = "SELECT o FROM Operation o where o.type =:type AND o.statut=:statut AND"
+			+ " o.dateComptable BETWEEN DATE(:date) AND DATE(:date2) order by o.id DESC")
+	List<Operation> findByDateComptableTypeStatut(@Param("date") Date date, @Param("date2") Date date2, @Param("type") String type, @Param("statut") String statut );
+	
+	@Query(value = "SELECT o FROM Operation o where o.type =:type AND o.beneficiaire=:codeBeneficiare AND"
+			+ " DATE(:date)=o.dateComptable order by o.id DESC")
+	List<Operation> findByDateComptableAndType(@Param("date") Date date, @Param("type") String type, @Param("codeBeneficiare")String codeBeneficiare);
+	
+	@Query(value = "SELECT o FROM Operation o where o.type =:type AND o.beneficiaire=:codeBeneficiare AND"
+			+ "  o.dateComptable BETWEEN DATE(:date) AND DATE(:date2) order by o.id DESC")
+	List<Operation> findByDateComptableAndType(@Param("date") Date date, @Param("date2") Date date2, @Param("type") String type, @Param("codeBeneficiare")String codeBeneficiare);
+	
+	@Query(value = "SELECT o FROM Operation o where o.type =:type AND o.beneficiaire=:codeBeneficiare AND o.statut=:statut AND"
+			+ " DATE(:date)=o.dateComptable order by o.id DESC")
+	List<Operation> findByDateComptableTypeCodeStatut(@Param("date") Date date, @Param("type") String type, @Param("codeBeneficiare")String codeBeneficiare, @Param("statut") String statut);
+	
+	@Query(value = "SELECT o FROM Operation o where o.type =:type AND o.beneficiaire=:codeBeneficiare AND o.statut=:statut AND"
+			+ " o.dateComptable BETWEEN DATE(:date) AND DATE(:date2) order by o.id DESC")
+	List<Operation> findByDateComptableTypeCodeStatut(@Param("date") Date date, @Param("date2") Date date2, @Param("type") String type, @Param("codeBeneficiare")String codeBeneficiare, @Param("statut") String statut);
 
 }

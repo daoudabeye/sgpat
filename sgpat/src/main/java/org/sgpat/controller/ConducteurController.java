@@ -32,6 +32,7 @@ public class ConducteurController {
 	private static final String LISTE_VIEW = "conducteur/liste";
 	private static final String PROFILE_VIEW = "conducteur/profile_chauffeur";
 	private static final String RECETTE = "vehicule/recettes";
+	private static final String SEARCH_RECETTE = "conducteur/recettes_search";
 
 	@Autowired
 	ChauffeurService chauffeurService;
@@ -55,6 +56,22 @@ public class ConducteurController {
 		
 			model.addAttribute("codeChauffeur", "codeChauffeur");
 		return CHAUFFEUR_VIEW;
+	}
+	
+	@RequestMapping(value = "recette/search", params ={ "date" , "date2" , "codeChauffeur" , "statut" }, method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	@Secured({"ROLE_AGENT", "ROLE_ADMIN"})
+	public String searchRecette(Model model,  @RequestParam(value = "date" ,  defaultValue = "") String date,
+			@RequestParam(value = "date2" ,  defaultValue = "") String date2,
+			@RequestParam(value = "codeChauffeur",  defaultValue = "") String codeChauffeur, 
+			@RequestParam( value = "statut",  defaultValue = "")String statut){
+		List<Operation> recettes;
+		
+		recettes = operationService.find(date, date2, "RECETTE" , codeChauffeur, statut);
+		
+		model.addAttribute("chauffeurs", chauffeurService.getAll());
+		model.addAttribute("recettes", recettes);
+		return SEARCH_RECETTE;
 	}
 	
 	@RequestMapping(value = "profile", params = "codeChauffeur", method = RequestMethod.GET)

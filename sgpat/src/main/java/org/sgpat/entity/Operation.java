@@ -36,6 +36,8 @@ public class Operation implements Serializable {
 
 	private String type;
 	
+	private String statut;
+	
 	private String beneficiaire;
 	
 	@Column( name="id_benef")
@@ -202,6 +204,14 @@ public class Operation implements Serializable {
 
 	public void setDateComptable(Date dateComptable) {
 		this.dateComptable = dateComptable;
+	}
+
+	public String getStatut() {
+		return statut;
+	}
+
+	public void setStatut(String statut) {
+		this.statut = statut;
 	}
 
 }

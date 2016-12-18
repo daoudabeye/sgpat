@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!-- Page title -->
+<title>SGPAT | Operation</title>
+
+<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+<!--<link rel="shortcut icon" type="image/ico" href="favicon.ico" />-->
+
+<!-- Vendor styles -->
+<link href="../../../resources/fontawesome/css/font-awesome.css"
+	rel="stylesheet" media="screen"
+	th:href="@{/resources/fontawesome/css/font-awesome.css}" />
+<link href="../../../resources/metisMenu/metisMenu.css" rel="stylesheet"
+	media="screen" th:href="@{/resources/metisMenu/metisMenu.css}" />
+<link href="../../../resources/animate.css/animate.css" rel="stylesheet"
+	media="screen" th:href="@{/resources/animate.css/animate.css}" />
+<link href="../../../resources/bootstrap/css/bootstrap.css"
+	rel="stylesheet" media="screen"
+	th:href="@{/resources/bootstrap/css/bootstrap.css}" />
+<link rel="stylesheet" media="screen"
+	th:href="@{/resources/bootstrap/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css}" />
+
+<link rel="stylesheet" media="screen"
+	th:href="@{/resources/select2-3.5.2/select2.css}" />
+
+<link rel="stylesheet" media="screen"
+	th:href="@{/resources/datatables.net-bs/css/dataTables.bootstrap.min.css}" />
+
+<!-- App styles -->
+<link
+	href="../../../resources/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css"
+	rel="stylesheet" media="screen"
+	th:href="@{/resources/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css}" />
+<link href="../../../resources/fonts/pe-icon-7-stroke/css/helper.css"
+	rel="stylesheet" media="screen"
+	th:href="@{/resources/fonts/pe-icon-7-stroke/css/helper.css}" />
+<link href="../../../resources/style/style.css" rel="stylesheet"
+	media="screen" th:href="@{/resources/style/style.css}" />
+
+</head>
+<body class="fixed-navbar fixed-sidebar">
+
+	<!-- Simple splash screen-->
+	<div class="splash">
+		<div class="color-line"></div>
+		<div class="splash-title">
+			<h1>SGPAT - Systeme de Gestion de Prac Auto et Taxi</h1>
+			<p>Merci de patienter, traitement en cours....</p>
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</div>
+	</div>
+	<!--[if lt IE 7]>
+<p class="alert alert-danger">You are using an <strong>outdated</strong>
+ browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+	<!-- Header -->
+	<div th:replace="fragments/header :: header">&nbsp;</div>
+
+	<!-- Navigation -->
+	<aside id="menu">
+		<div th:replace="fragments/navigation :: navigation">&nbsp;</div>
+	</aside>
+
+	<!-- Main Wrapper -->
+	<div id="wrapper">
+
+		<div class="content animate-panel">
+			<div class="row">
+				<div class="col-md-3">
+					<div class="hpanel">
+						<div class="panel-body">
+							<div class="m-b-md">
+								<h4>Filtre Opération</h4>
+								<small> Appliquer des filtres </small>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label">Date:</label>
+								<div class="input-group date">
+									<input type="text" class="form-control" value=""
+										id="datepicker"> <span class="input-group-addon"><i
+										class="glyphicon glyphicon-calendar"></i></span>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label">Intervalle:</label>
+								<div class="input-group date">
+									<input type="text" class="form-control" value=""
+										id="datapicker3"> <span class="input-group-addon"><i
+										class="glyphicon glyphicon-calendar"></i></span>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label">Type:</label>
+								<div class="input-group">
+									<select class="form-control m-b" name="account" id="type">
+										<option selected >DECAISSEMENT</option>
+										<option>ENCAISSEMENT</option>
+										<option>SALAIRE</option>
+										<option>AUTRE</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="m-t-md">
+								<h5>Bénéficiaire</h5>
+								<div class="input-group date">
+									<input type="text" class="form-control" value=""
+										id="beneficiaire"> <span class="input-group-addon"><i
+										class="glyphicon glyphicon-calendar"></i></span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label">STATUT:</label>
+								<div class="input-group">
+									<select class="form-control m-b" name="account" id="statut">
+										<option selected></option>
+										<option>PAYER</option>
+										<option>IMPAYER</option>
+									</select>
+								</div>
+							</div>
+
+							<button class="btn btn-success btn-block" onclick="filter()">Recherhe</button>
+
+						</div>
+
+					</div>
+
+				</div>
+				<div class="col-md-9">
+					<div class="row">
+
+						<div class="col-lg-12">
+
+							<div class="hpanel">
+
+								<div class="panel-body">
+
+									<p>
+										<strong>Historique Opérations</strong>
+									</p>
+
+									<div class="table-responsive">
+										<table class="table table-hover table-bordered table-striped">
+											<thead>
+												<tr>
+													<th>Type</th>
+													<th>Statut</th>
+													<th>Bénéficiaire</th>
+													<th>Montant</th>
+													<th>Date</th>
+													<th>Action</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="recette : ${recettes}">
+												<td><span class="label label-success"> <span
+															th:text="${recette.type}"></span>
+													</span></td>
+													<td><span class="label label-success"> <span
+															th:text="${recette.statut}"></span>
+													</span></td>
+
+													<td><span th:text="${recette.beneficiaire}"></span></td>
+													<td><span th:text="${recette.montantDus}"></span></td>
+													<td><span th:text="${recette.dateComptable}"></span></td>
+													<td class="text-right">
+														<button class="btn btn-default btn-xs">Payer</button>
+													</td>
+												</tr>
+
+											</tbody>
+										</table>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+
+		<!-- Footer-->
+		<footer class="footer">
+			<div th:replace="fragments/footer :: footer">&copy; 2013 The
+				Static Templates</div>
+		</footer>
+
+	</div>
+
+	<!-- Vendor scripts -->
+	<script th:src="@{/resources/jquery/jquery.min.js}"></script>
+	<script th:src="@{/resources/jquery-ui/jquery-ui.min.js}"></script>
+	<script th:src="@{/resources/slimScroll/jquery.slimscroll.min.js}"></script>
+	<script th:src="@{/resources/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/resources/metisMenu/metisMenu.min.js}"></script>
+	<script th:src="@{/resources/iCheck/icheck.min.js}"></script>
+	<script th:src="@{/resources/sparkline/index.js}"></script>
+
+	<!-- DataTables -->
+	<script
+		th:src="@{/resources/datatables/media/js/jquery.dataTables.min.js}"></script>
+	<script
+		th:src="@{/resources/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
+
+	<script th:src="@{/resources/select2-3.5.2/select2.min.js}"></script>
+
+	<!-- DataTables buttons scripts -->
+	<script th:src="@{/resources/pdfmake/build/pdfmake.min.js}"></script>
+	<script th:src="@{/resources/pdfmake/build/vfs_fonts.js}"></script>
+	<script
+		th:src="@{/resources/datatables.net-buttons/js/buttons.html5.min.js}"></script>
+	<script
+		th:src="@{/resources/datatables.net-buttons/js/buttons.print.min.js}"></script>
+	<script
+		th:src="@{/resources/datatables.net-buttons/js/dataTables.buttons.min.js}"></script>
+	<script
+		th:src="@{/resources/datatables.net-buttons-bs/js/buttons.bootstrap.min.js}"></script>
+	<script
+		th:src="@{/resources/bootstrap-datepicker-master/js/bootstrap-datepicker.min.js}"></script>
+
+	<!-- App scripts -->
+	<script th:src="@{/resources/js/homer.js}"></script>
+
+
+	<script>
+		$(function() {
+
+			// Initialize Example 1
+			$('#example1')
+					.dataTable(
+							{
+								"ajax" : 'api/datatables.json',
+								dom : "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp",
+								"lengthMenu" : [ [ 10, 25, 50, -1 ],
+										[ 10, 25, 50, "All" ] ],
+								buttons : [ {
+									extend : 'copy',
+									className : 'btn-sm'
+								}, {
+									extend : 'csv',
+									title : 'ExampleFile',
+									className : 'btn-sm'
+								}, {
+									extend : 'pdf',
+									title : 'ExampleFile',
+									className : 'btn-sm'
+								}, {
+									extend : 'print',
+									className : 'btn-sm'
+								} ]
+							});
+
+			// Initialize Example 2
+			$('#example2').dataTable();
+
+		});
+	</script>
+
+	<script>
+		$(function() {
+
+			$('#datepicker').datepicker();
+			$("#datepicker").on(
+					"changeDate",
+					function(event) {
+						$("#my_hidden_input")
+								.val(
+										$("#datepicker").datepicker(
+												'getFormattedDate'))
+					});
+
+			$('#datapicker1').datepicker();
+			$('#datapicker2').datepicker();
+			$('#datapicker3').datepicker();
+			$('#datepicker .input-group.date').datepicker({});
+			$('#datepicker .input-daterange').datepicker({});
+
+			$(".js-source-states").select2();
+			$(".js-source-states-2").select2();
+
+		});
+	</script>
+
+	<script type="text/javascript">
+		// unblock when ajax activity stops 
+		$(document).ajaxStop($.unblockUI);
+
+		function test() {
+			$.ajax({
+				url : '/retrait',
+				cache : false
+			});
+		}
+
+		function filter() {
+			var url = '/sgpat/operation/historique?';
+
+			url = url + 'beneficiaire=' + $('#beneficiaire').val();
+			url = url + '&date=' + $('#datepicker').val();
+			url = url + '&date2=' + $('#datapicker3').val();
+			url = url + '&statut=' + $('#statut').val();
+			url = url + '&type=' + $('#type').val();
+
+			//$("#fragment").load(url);
+			//loadUrl(url);
+			window.location = url;
+		}
+
+		// unblock when ajax activity stops 
+		$(document).ajaxStop($.unblockUI);
+
+		function test() {
+			$.ajax({
+				url : '/retrait',
+				cache : false
+			});
+		}
+	</script>
+</body>
+</html>
