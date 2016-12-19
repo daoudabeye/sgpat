@@ -111,5 +111,11 @@ public class MaintenanceForm {
 	public void setDateSortie(String dateSortie) {
 		this.dateSortie = dateSortie;
 	}
+	public String getMotif() {
+		return motif;
+	}
+	public void setMotif(String motif) {
+		this.motif = motif;
+	}
 	
 }

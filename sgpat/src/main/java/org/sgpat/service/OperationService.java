@@ -42,6 +42,10 @@ public class OperationService {
 	@Autowired
 	VehiculeService vehiculeService;
 	
+	public void save(Operation operation){
+		operationRepository.save(operation);
+	}
+	
 	public List<Operation> findByCode(String codeBeneficiare){
 		return operationRepository.findByBeneficiaire(codeBeneficiare);
 	}

@@ -59,6 +59,7 @@ public class Operation implements Serializable {
 	private Employee employee;
 
 	public Operation() {
+		this.date = new Date();
 	}
 
 	public Operation(String beneficiaire, Date dateProchain, Date dateComptable, double montant, String note, String type,
